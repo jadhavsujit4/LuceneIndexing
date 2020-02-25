@@ -35,7 +35,7 @@ public class Constants {
     public static final String trecEvalCommand = trecEvalPath + " -m official " + trecEvalRelevancePath + " " + searchResultFile;
     public static final String trecEvalResultFile = "data/results/Trec Eval.res";
     public static final String MODELBM25 = "bm25";
-    public static final int maxResults = 100;
+    public static final int maxResults = 50;
     public static final float k = 1.2f;
     public static final float b = 0.75f;
     public static final float lam = 0.5f;
