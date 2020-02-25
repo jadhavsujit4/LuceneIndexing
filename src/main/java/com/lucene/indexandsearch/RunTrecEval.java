@@ -31,7 +31,7 @@ public class RunTrecEval {
         }
 
 
-        args1 = new String[]{"/bin/bash", "-c", "./trec_eval " + System.getProperty("user.dir") + "/data/cran/cranqrel " + System.getProperty("user.dir") + "/data/results/bm25_results.res"};
+        args1 = new String[]{"/bin/bash", "-c", "./trec_eval " + System.getProperty("user.dir") + "/data/cran/cranqrel " + System.getProperty("user.dir") + "/data/results/bm25_results_Standard.res"};
 //        String[] args1 = new String[]{"/bin/bash", "-c", "ls"};
         procss = new ProcessBuilder(args1).start();
 //        out = procss.getOutputStream();
@@ -48,7 +48,7 @@ public class RunTrecEval {
 //        String s;
 //        Process p;
 //        try {
-//            p = Runtime.getRuntime().exec("./trec_eval -m official /home/sujit/Downloads/cranqrel /home/sujit/IdeaProjects/LuceneIndexing/data/cran/bm25_results.res");
+//            p = Runtime.getRuntime().exec("./trec_eval -m official /home/sujit/Downloads/cranqrel /home/sujit/IdeaProjects/LuceneIndexing/data/cran/bm25_results_Standard.res");
 //            BufferedReader br = new BufferedReader(
 //                    new InputStreamReader(p.getInputStream()));
 //            while ((s = br.readLine()) != null)

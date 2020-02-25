@@ -1,9 +1,8 @@
 package com.lucene.indexandsearch.searcher;
 
+import com.lucene.indexandsearch.indexer.SMJAnalyzer;
 import com.lucene.indexandsearch.utils.Constants;
-import com.lucene.indexandsearch.utils.TokenAnalyzerMaker;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -13,9 +12,8 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.search.similarities.*;
 import org.apache.lucene.search.similarities.LMSimilarity.CollectionModel;
-import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.*;
@@ -34,19 +32,19 @@ public class RunSearcher {
     protected String qeFile;
 
     protected enum SimModel {
-        BM25, BM25L
+        BM25, LMD, LMJ
     }
 
     protected SimModel sim;
 
     private void setSim(String val) {
         try {
-            sim = SimModel.valueOf(Constants.model);
+            sim = SimModel.valueOf(val);
         } catch (Exception e) {
             System.out.println("Similarity Function Not Recognized - Setting to Default");
             System.out.println("Possible Similarity Functions are:");
             for (SimModel value : SimModel.values()) {
-                System.out.println("<model>" + value.name() + "</model>");
+                System.out.println("<MODELBM25>" + value.name() + "</MODELBM25>");
             }
             sim = BM25;
         }
@@ -60,8 +58,17 @@ public class RunSearcher {
                 System.out.println("BM25 Similarity Function");
                 simfn = new BM25Similarity(Constants.k, Constants.b);
                 break;
+            case LMD:
+                System.out.println("LM Dirichlet Similarity Function");
+                colModel = new LMSimilarity.DefaultCollectionModel();
+                simfn = new LMDirichletSimilarity(colModel, Constants.mu);
+                break;
 
-
+            case LMJ:
+                System.out.println("LM Jelinek Mercer Similarity Function");
+                colModel = new LMSimilarity.DefaultCollectionModel();
+                simfn = new LMJelinekMercerSimilarity(colModel, Constants.lam);
+                break;
             default:
                 System.out.println("Default Similarity Function");
                 simfn = new BM25Similarity();
@@ -70,27 +77,24 @@ public class RunSearcher {
         }
     }
 
-    public void readParams() {
+    public void setParams(String similarityToUse) {
 
 
-        setSim(Constants.model.toUpperCase());
+//        setSim(Constants.MODELBM25.toUpperCase());
+        setSim(similarityToUse.toUpperCase());
 
-        System.out.println("Path to index: " + Constants.indexName);
-        System.out.println("Query File: " + Constants.queryFile);
-        System.out.println("Result File: " + Constants.searchResultFile);
-        System.out.println("Model: " + Constants.model);
-        System.out.println("Max Results: " + Constants.maxResults);
-        if (sim == BM25) {
-            System.out.println("b value: " + Constants.b);
-            System.out.println("k value: " + Constants.k);
-        }
-        if (Constants.tokenFilterFile != null) {
-            TokenAnalyzerMaker tam = new TokenAnalyzerMaker();
-//            analyzer = tam.createAnalyzer(Constants.tokenFilterFile);
-            analyzer = new StandardAnalyzer();
-        } else {
-            analyzer = Constants.ANALYZER;
-        }
+//        System.out.println("Path to index: " + Constants.indexName);
+//        System.out.println("Query File: " + Constants.queryFile);
+//        System.out.println("Result File: " + Constants.searchResultFile);
+//        System.out.println("Model: " + Constants.MODELBM25);
+//        System.out.println("Max Results: " + Constants.maxResults);
+//        if (sim == BM25) {
+//            System.out.println("b value: " + Constants.b);
+//            System.out.println("k value: " + Constants.k);
+//        }
+
+
+        analyzer = new SMJAnalyzer();
     }
 
     public void processQueryFile() {
@@ -98,7 +102,7 @@ public class RunSearcher {
         System.out.println("Query File...");
         try {
             BufferedReader br = new BufferedReader(new FileReader(Constants.queryFile));
-            File file = new File(Constants.searchResultFile);
+            File file = new File(Constants.searchResultFile + "_" + sim);
             FileWriter fw = new FileWriter(file);
             int iii = 0;
             try {
@@ -135,7 +139,8 @@ public class RunSearcher {
                 br.close();
                 fw.close();
             }
-            System.out.println("Sujit i: " + iii);
+            System.out.println("Total number of queries: " + iii);
+            System.out.println("Result file is stored at: " + Constants.searchResultFile + "_" + sim);
 
         } catch (Exception e) {
             System.out.println(" caught a " + e.getClass() +
@@ -164,9 +169,9 @@ public class RunSearcher {
         return hits;
     }
 
-    public RunSearcher() {
-        System.out.println("Retrieval App");
-        readParams();
+    public RunSearcher(String similarity) {
+        System.out.println("Searcher");
+        setParams(similarity);
         try {
             reader = DirectoryReader.open(FSDirectory.open(new File(Constants.indexName).toPath()));
             searcher = new IndexSearcher(reader);
@@ -174,7 +179,7 @@ public class RunSearcher {
             // create similarity function and parameter
             selectSimilarityFunction(sim);
             searcher.setSimilarity(simfn);
-
+            analyzer = new SMJAnalyzer();
             parser = new QueryParser(Constants.FIELD_ALL, analyzer);
 
         } catch (Exception e) {
@@ -184,7 +189,14 @@ public class RunSearcher {
     }
 
     public static void main(String[] args) {
-        RunSearcher searcher = new RunSearcher();
+        String sim;
+        if (args.length != 0) {
+            sim = args[0];
+        } else {
+            System.out.println("Please mention similarity to use or default similarity BM25 would be used.");
+            sim = Constants.MODELBM25;
+        }
+        RunSearcher searcher = new RunSearcher(sim);
         searcher.processQueryFile();
     }
 }

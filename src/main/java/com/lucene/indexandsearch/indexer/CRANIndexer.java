@@ -8,6 +8,7 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 
 import java.io.BufferedReader;
+import java.util.Arrays;
 
 public class CRANIndexer extends DocumentIndexer {
 
@@ -30,7 +31,6 @@ public class CRANIndexer extends DocumentIndexer {
     }
 
     private void initFields() {
-        System.out.println("InitFields");
         docnumField = new StringField(Constants.FIELD_DOCNUM, "", Field.Store.YES);
         pubdateField = new StringField(Constants.FIELD_PUBDATE, "", Field.Store.YES);
         if (indexPositions) {
@@ -100,9 +100,7 @@ public class CRANIndexer extends DocumentIndexer {
                         }
 
                         // reset fields
-                        for (int i = 0; i < fields.length; i++) {
-                            fields[i] = "";
-                        }
+                        Arrays.fill(fields, "");
                         String[] parts = line.split(" ");
                         // set field 0 to docid
                         fields[0] = parts[1];
@@ -137,11 +135,9 @@ public class CRANIndexer extends DocumentIndexer {
                         }
                     }
                     line = br.readLine();
-//                    System.out.println(line);
                 }
                 if (!fields[0].equals("")) {
                     doc = createCacmDocument(fields[0], fields[1], fields[2], fields[3], fields[4]);
-                    System.out.println(doc);
                     addDocToIndex(doc);
                 }
 
@@ -153,7 +149,4 @@ public class CRANIndexer extends DocumentIndexer {
                     "\n with message: " + e.getMessage());
         }
     }
-
-    ;
-
 }

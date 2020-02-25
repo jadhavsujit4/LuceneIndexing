@@ -20,6 +20,7 @@
         </plugins>
     </build>
 
+    <packaging>jar</packaging>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
         <dependency>

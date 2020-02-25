@@ -8,9 +8,6 @@ import org.apache.lucene.index.IndexOptions;
 
 import java.io.Reader;
 
-/**
- * Created by zhaomin.zheng on 8/11/17.
- */
 public class TermVectorField extends Field {
     public static final FieldType TYPE_NOT_STORED = new FieldType();
     public static final FieldType TYPE_STORED = new FieldType();

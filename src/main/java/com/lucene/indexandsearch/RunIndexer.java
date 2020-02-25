@@ -3,6 +3,7 @@ package com.lucene.indexandsearch;
 
 import com.lucene.indexandsearch.indexer.CRANIndexer;
 import com.lucene.indexandsearch.indexer.DocumentIndexer;
+import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.FSDirectory;
@@ -50,15 +51,10 @@ public class RunIndexer {
     public void selectDocumentParser(DocumentModel dm) {
         docModel = dm;
         di = null;
-        switch (dm) {
-            case CRAN:
-                System.out.println("CRAN Document Parser");
-                di = new CRANIndexer(p.indexName, p.tokenFilterFile, p.recordPositions);
-                break;
-            default:
-                System.out.println("Default Document Parser");
-
-                break;
+        if (dm == DocumentModel.CRAN) {
+            di = new CRANIndexer(p.indexName, p.tokenFilterFile, p.recordPositions);
+        } else {
+            System.out.println("Default Document Parser");
         }
     }
 
@@ -71,19 +67,16 @@ public class RunIndexer {
 
         String filename = p.fileList;
 
-        ArrayList<String> files = new ArrayList<String>();
+        ArrayList<String> files = new ArrayList<>();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
-            try {
+            try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
                 String line = br.readLine();
                 while (line != null) {
                     files.add(line);
                     line = br.readLine();
                 }
 
-            } finally {
-                br.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,16 +95,16 @@ public class RunIndexer {
 
         if (p.recordPositions == null)
             p.recordPositions = false;
-
-        System.out.println("Index type: " + p.indexType);
-        System.out.println("Path to index: " + p.indexName);
-        System.out.println("List of files to index: " + p.fileList);
-        System.out.println("Record positions in index: " + p.recordPositions);
+//
+//        System.out.println("Index type: " + p.indexType);
+//        System.out.println("Path to index: " + p.indexName);
+//        System.out.println("List of files to index: " + p.fileList);
+//        System.out.println("Record positions in index: " + p.recordPositions);
 
     }
 
     public RunIndexer(String indexParamFile) {
-        System.out.println("Indexer App");
+        System.out.println("Indexer");
         readIndexParamsFromFile(indexParamFile);
         setDocParser(p.indexType);
         selectDocumentParser(docModel);
@@ -141,22 +134,12 @@ public class RunIndexer {
 
     public static void main(String[] args) {
 
-
-        String indexParamFile = "/home/sujit/IdeaProjects/LuceneIndexing/src/main/resources/cran.all/cran.all";
-
-        try {
-            indexParamFile = args[0];
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        RunIndexer indexer = new RunIndexer(indexParamFile);
+        RunIndexer indexer = new RunIndexer(Constants.indexParamFile);
 
         try {
             ArrayList<String> files = indexer.readFileListFromFile();
             for (String f : files) {
-                System.out.println("About to Index Files in: " + f);
+                System.out.println("About to Index Files from: " + f);
                 indexer.indexDocumentsFromFile(f);
             }
         } catch (Exception e) {
@@ -176,9 +159,7 @@ class IndexParams {
     public String indexName;
     public String fileList;
     public String indexType;
-    /**
-     * trecWeb, trecNews, trec678, cacm
-     **/
+
     //public Boolean compressed;
     public String tokenFilterFile;
     public Boolean recordPositions;
