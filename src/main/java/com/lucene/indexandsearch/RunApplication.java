@@ -3,12 +3,12 @@ package com.lucene.indexandsearch;
 import com.lucene.indexandsearch.searcher.RunSearcher;
 import com.lucene.indexandsearch.utils.Constants;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class RunApplication {
 
     public static void main(String[] args) throws Exception {
+
         RunIndexer indexer = new RunIndexer(Constants.indexParamFile);
 
         try {
@@ -31,6 +31,7 @@ public class RunApplication {
         searcher.processQueryFile();
 
         PlotGraph.main(null);
+        System.out.println( Constants.CYAN_BOLD_BRIGHT + "FINISHED!" + Constants.ANSI_RESET);
     }
 
 

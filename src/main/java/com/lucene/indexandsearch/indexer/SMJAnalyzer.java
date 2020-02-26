@@ -1,11 +1,10 @@
 package com.lucene.indexandsearch.indexer;
 
 import org.apache.lucene.analysis.*;
-import org.apache.lucene.analysis.en.EnglishPossessiveFilter;
 import org.apache.lucene.analysis.en.KStemFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.standard.ClassicFilter;
-import org.apache.lucene.analysis.standard.ClassicTokenizer;
+import org.apache.lucene.analysis.standard.StandardTokenizer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +13,8 @@ import java.util.List;
 public class SMJAnalyzer extends Analyzer {
     @Override
     protected TokenStreamComponents createComponents(String s) {
-        Tokenizer stdTokenizer = new ClassicTokenizer();
+//        Tokenizer stdTokenizer = new ClassicTokenizer();
+        Tokenizer stdTokenizer = new StandardTokenizer();
         TokenStream tokenStream = new ClassicFilter(stdTokenizer);
         tokenStream = new LowerCaseFilter(tokenStream);
 //        tokenStream = new EnglishPossessiveFilter(tokenStream);

@@ -1,17 +1,16 @@
 package com.lucene.indexandsearch;
 
 
-import java.io.*;
-import java.util.Map;
-
 import com.lucene.indexandsearch.utils.Constants;
-import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+import java.io.File;
+import java.util.Map;
 
 public class PlotGraph {
 
@@ -29,8 +28,8 @@ public class PlotGraph {
 
         JFreeChart xylineChart = ChartFactory.createXYLineChart(
                 "Precision VS Recall Curve",
-                "Precision",
                 "Recall",
+                "Precision",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true, true, false);
@@ -39,7 +38,6 @@ public class PlotGraph {
         int height = 480;  /* Height of the image */
         File XYChart = new File(Constants.precisionRecallGraphImagePath);
         ChartUtilities.saveChartAsJPEG(XYChart, xylineChart, width, height);
-        System.out.println("Precision VS Recall graph image saved at: " + Constants.precisionRecallGraphImagePath);
-        System.out.println("FINISHED!!");
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Precision VS Recall graph image saved at: " + Constants.precisionRecallGraphImagePath + Constants.ANSI_RESET);
     }
 }

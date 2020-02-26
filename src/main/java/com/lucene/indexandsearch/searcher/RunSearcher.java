@@ -108,16 +108,16 @@ public class RunSearcher {
         }else{
             System.out.println("Sorry couldn’t create specified directory");
         }
-        System.out.println("Query File...");
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Query File..." + Constants.ANSI_RESET);
         try {
             BufferedReader br = new BufferedReader(new FileReader(Constants.queryFile));
             File file = new File(Constants.searchResultFile + "_" + sim);
             FileWriter fw = new FileWriter(file);
-            int iii = 0;
+            int docCount = 0;
             try {
                 String line = br.readLine();
                 while (line != null) {
-                    iii++;
+                    docCount++;
                     String[] parts = line.split(" ");
                     String qno = parts[1];
                     String queryTerms = "";
@@ -139,7 +139,7 @@ public class RunSearcher {
                     for (int i = 0; i < n; i++) {
                         Document doc = searcher.doc(scored[i].doc);
                         String docno = doc.get("docnum");
-                        fw.write(iii + "\tQ0\t" + docno + "\t" + (i + 1) + "\t" + scored[i].score + "\t" + Constants.runTag);
+                        fw.write(docCount + "\tQ0\t" + docno + "\t" + (i + 1) + "\t" + scored[i].score + "\t" + Constants.runTag);
                         fw.write(System.lineSeparator());
                     }
                     //line = br.readLine();
@@ -148,8 +148,8 @@ public class RunSearcher {
                 br.close();
                 fw.close();
             }
-            System.out.println("Total number of queries: " + iii);
-            System.out.println("Result file is stored at: " + Constants.searchResultFile + "_" + sim);
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Total number of queries: " + docCount + Constants.ANSI_RESET);
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Query Ranking/Result file is stored at: " + Constants.searchResultFile + "_" + sim + Constants.ANSI_RESET);
 
         } catch (Exception e) {
             System.out.println(" caught a " + e.getClass() +

@@ -120,7 +120,7 @@ public class RunIndexer {
         try {
             IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(p.indexName)));
             long numDocs = reader.numDocs();
-            System.out.println("Number of docs indexed: " + numDocs);
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Number of docs indexed: " + numDocs + Constants.ANSI_RESET);
 
 
         } catch (IOException e) {
@@ -139,7 +139,7 @@ public class RunIndexer {
         try {
             ArrayList<String> files = indexer.readFileListFromFile();
             for (String f : files) {
-                System.out.println("About to Index Files from: " + f);
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "About to Index Files from: " + f + Constants.ANSI_RESET);
                 indexer.indexDocumentsFromFile(f);
             }
         } catch (Exception e) {
@@ -147,7 +147,7 @@ public class RunIndexer {
             System.exit(1);
         }
         indexer.finished();
-        System.out.println("Done building Index");
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Done building Index" + Constants.ANSI_RESET);
 
 
     }

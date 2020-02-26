@@ -2,10 +2,7 @@ package com.lucene.indexandsearch;
 
 import com.lucene.indexandsearch.utils.Constants;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,7 +20,6 @@ public class RunTrecEval {
         OutputStream out = null;
 
 
-        System.out.println(System.getProperty("user.dir"));
         String[] args1 = new String[]{"/bin/bash", "-c", "cd " + System.getProperty("user.dir") + "/data/trec_eval-9.0.7"};
         Process procss = new ProcessBuilder(args1).start();
         args1 = new String[]{"/bin/bash", "-c", Constants.trecEvalCommand + "_" + Constants.MODELBM25};
@@ -44,11 +40,11 @@ public class RunTrecEval {
                 fw.write(s);
                 fw.write(System.lineSeparator());
             }
-            System.out.println(trecEvalXYValues);
+//            System.out.println(trecEvalXYValues);
         } finally {
             br.close();
             fw.close();
         }
-        System.out.println("Trec Eval results are stored at: " + Constants.trecEvalResultFile);
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Trec Eval results are stored at: " + Constants.trecEvalResultFile + Constants.ANSI_RESET);
     }
 }

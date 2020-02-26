@@ -79,6 +79,9 @@ public class Constants {
 //    public static final String fieldsFile;
 //    public static final String qeFile;
 
+    public static final String ANSI_RESET = "\u001B[0m";  // Text Reset
+
+    public static final String CYAN_BOLD_BRIGHT = "\033[1;96m";; // GREEN
 
 }
 
