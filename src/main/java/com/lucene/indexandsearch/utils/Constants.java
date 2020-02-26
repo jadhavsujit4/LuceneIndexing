@@ -27,14 +27,17 @@ public class Constants {
     public static final String baseProjectPath = System.getProperty("user.dir");
 
     //Parameters For Searching
+    public static String resultsDirectoryPath = "data/results";
     public static final String indexName = "index";
     public static String queryFile = "data/cran/cran.qry";
+    public static String precisionRecallGraphImagePath = "data/results/PRGraph.jpeg";
     public static final String searchResultFile = "data/results/bm25_results";
-    public static final String trecEvalPath = baseProjectPath + "/data/trec_eval-9.0.7/trec_eval";
-    public static final String trecEvalRelevancePath = baseProjectPath + "/data/cran/cranqrel";
-    public static final String trecEvalCommand = trecEvalPath + " -m official " + trecEvalRelevancePath + " " + searchResultFile;
-    public static final String trecEvalResultFile = "data/results/Trec Eval.res";
-    public static final String MODELBM25 = "bm25";
+    public static final String trecEvalPath = "data/trec_eval-9.0.7/trec_eval ";
+    public static final String trecEvalRelevancePath =  "data/cran/cranqrel";
+    public static final String trecEvalCommand = trecEvalPath + trecEvalRelevancePath + " " + searchResultFile;
+//    public static final String trecEvalCommand = "data/trec_eval-9.0.7/trec_eval data/cran/cranqrel data/results/bm25_results_BM25";
+    public static final String trecEvalResultFile = "data/results/TrecEval_Result.txt";
+    public static final String MODELBM25 = "BM25";
     public static final int maxResults = 50;
     public static final float k = 1.2f;
     public static final float b = 0.75f;

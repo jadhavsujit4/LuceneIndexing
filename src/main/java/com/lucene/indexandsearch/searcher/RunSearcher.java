@@ -99,6 +99,15 @@ public class RunSearcher {
 
     public void processQueryFile() {
 
+        //Creating a File object
+        File file1 = new File(Constants.resultsDirectoryPath);
+        //Creating the directory
+        boolean bool = file1.mkdir();
+        if(bool){
+            System.out.println("Directory created successfully");
+        }else{
+            System.out.println("Sorry couldn’t create specified directory");
+        }
         System.out.println("Query File...");
         try {
             BufferedReader br = new BufferedReader(new FileReader(Constants.queryFile));
