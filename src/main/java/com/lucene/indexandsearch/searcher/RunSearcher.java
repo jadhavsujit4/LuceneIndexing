@@ -205,8 +205,8 @@ public class RunSearcher {
     public static void main(String[] args) {
         String sim;
         if (args.length != 0) {
-            sim = args[0];
-            Constants.MODELUSED = args[0];
+            sim = args[0].toUpperCase();
+            Constants.MODELUSED = sim;
         } else {
             System.out.println("Please mention similarity to use or default similarity BM25 would be used.");
             sim = Constants.MODELBM25;

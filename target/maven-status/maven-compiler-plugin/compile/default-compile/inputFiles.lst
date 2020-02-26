@@ -8,7 +8,6 @@
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/RunApplication.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/utils/Constants.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/utils/SeparatorBySj.java
-/home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/searcher/CustomSimilarity.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/PlotGraph.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/searcher/RunSearcher.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/indexer/TermVectorField.java

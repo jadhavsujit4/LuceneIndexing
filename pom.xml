@@ -39,6 +39,7 @@
                     </arguments>
 
                     <mainClass>com.lucene.indexandsearch.RunApplication</mainClass>
+                    <arguments>${similarity}</arguments>
                     <additionalClasspathElements>
                         <additionalClasspathElement>
                             /tmp/externalTestJars/testjar.jar

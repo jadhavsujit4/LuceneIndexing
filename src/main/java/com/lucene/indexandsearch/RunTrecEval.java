@@ -23,7 +23,7 @@ public class RunTrecEval {
 
         String[] args1 = new String[]{"/bin/bash", "-c", "cd " + System.getProperty("user.dir") + "/data/trec_eval-9.0.7"};
         Process procss = new ProcessBuilder(args1).start();
-        args1 = new String[]{"/bin/bash", "-c", Constants.trecEvalCommand + "_" + Constants.MODELCLASSIC};
+        args1 = new String[]{"/bin/bash", "-c", Constants.trecEvalCommand + "_" + Constants.MODELUSED};
         procss = new ProcessBuilder(args1).start();
         String s = "";
         BufferedReader br = new BufferedReader(
