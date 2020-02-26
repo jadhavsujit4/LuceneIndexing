@@ -25,8 +25,14 @@ public class RunApplication {
         System.out.println("Done building Index");
 
         String sim;
-
-        sim = Constants.MODELBM25;
+        if (args.length != 0) {
+            sim = args[0];
+            Constants.MODELUSED = args[0];
+        } else {
+            System.out.println("Please mention similarity to use or default similarity BM25 would be used.");
+            sim = Constants.MODELBM25;
+            Constants.MODELUSED = Constants.MODELBM25;
+        }
         RunSearcher searcher = new RunSearcher(sim);
         searcher.processQueryFile();
 

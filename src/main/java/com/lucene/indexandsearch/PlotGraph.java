@@ -52,8 +52,8 @@ public class PlotGraph {
 
         int width = 640;   /* Width of the image */
         int height = 480;  /* Height of the image */
-        File XYChart = new File(Constants.precisionRecallGraphImagePath);
+        File XYChart = new File(Constants.precisionRecallGraphImagePath + "_" +Constants.MODELUSED + ".jpeg");
         ChartUtilities.saveChartAsJPEG(XYChart, xylineChart, width, height);
-        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Precision VS Recall graph image saved at: " + Constants.precisionRecallGraphImagePath + Constants.ANSI_RESET);
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Precision VS Recall graph image saved at: " + Constants.precisionRecallGraphImagePath + "_" +Constants.MODELUSED + ".jpeg" + Constants.ANSI_RESET);
     }
 }

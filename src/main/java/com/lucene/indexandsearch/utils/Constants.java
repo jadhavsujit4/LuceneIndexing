@@ -30,14 +30,14 @@ public class Constants {
     public static String resultsDirectoryPath = "data/results";
     public static final String indexName = "index";
     public static String queryFile = "data/cran/cran.qry";
-    public static String precisionRecallGraphImagePath = "data/results/PRGraph.jpeg";
-    public static final String searchResultFile = "data/results/bm25_results";
+    public static String precisionRecallGraphImagePath = "data/results/PRGraph";
+    public static final String searchResultFile = "data/results/query_results";
     public static final String trecEvalPath = "data/trec_eval-9.0.7/trec_eval ";
     public static final String trecEvalRelevancePath =  "data/cran/cranqrel";
     public static final String trecEvalCommand = trecEvalPath + trecEvalRelevancePath + " " + searchResultFile;
 //    public static final String trecEvalCommand = "data/trec_eval-9.0.7/trec_eval data/cran/cranqrel data/results/bm25_results_BM25";
-    public static final String trecEvalResultFile = "data/results/TrecEval_Result.txt";
-    public static final String MODELBM25 = "BM25";
+    public static final String trecEvalResultFile = "data/results/TrecEval_Result";
+    public static final String TXTExtension = ".txt";
     public static final int maxResults = 50;
     public static final float k = 1.2f;
     public static final float b = 0.75f;
@@ -49,8 +49,12 @@ public class Constants {
     public static final String runTag = "bm25";
     public static final String tokenFilterFile = "params/index/example_01.xml";
 
+    public static final String MODELBM25 = "BM25";
+    public static final String MODELCLASSIC = "CLASSIC";
     public static final String MODELLMJ = "LMJ";
     public static final String MODELLMD = "LMD";
+
+    public static String MODELUSED = "";
 
     public static final int lengthFilterMinimumLength = 3;
     public static final int lengthFilterMaximumLength = 25;
@@ -84,6 +88,8 @@ public class Constants {
     public static final String ANSI_RESET = "\u001B[0m";  // Text Reset
 
     public static final String CYAN_BOLD_BRIGHT = "\033[1;96m";; // GREEN
+
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m"; // RED BACKGROUND
 
 }
 

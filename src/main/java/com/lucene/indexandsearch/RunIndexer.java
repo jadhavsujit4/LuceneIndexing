@@ -31,17 +31,17 @@ public class RunIndexer {
     private DocumentModel docModel;
 
     public RunIndexer() {
-        System.out.println("Indexer");
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexer" + Constants.ANSI_RESET);
     }
 
     private void setDocParser(String val) {
         try {
             docModel = DocumentModel.valueOf(p.indexType.toUpperCase());
         } catch (Exception e) {
-            System.out.println("Document Parser Not Recognized - Setting to Default");
-            System.out.println("Possible Document Parsers are:");
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Document Parser Not Recognized - Setting to Default" + Constants.ANSI_RESET);
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Possible Document Parsers are:" + Constants.ANSI_RESET);
             for (DocumentModel value : DocumentModel.values()) {
-                System.out.println("<indexType>" + value.name() + "</indexType>");
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "<indexType>" + value.name() + "</indexType>" + Constants.ANSI_RESET);
             }
             e.printStackTrace();
             System.exit(1);
@@ -54,7 +54,7 @@ public class RunIndexer {
         if (dm == DocumentModel.CRAN) {
             di = new CRANIndexer(p.indexName, p.tokenFilterFile, p.recordPositions);
         } else {
-            System.out.println("Default Document Parser");
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Default Document Parser" + Constants.ANSI_RESET);
         }
     }
 
@@ -104,7 +104,7 @@ public class RunIndexer {
     }
 
     public RunIndexer(String indexParamFile) {
-        System.out.println("Indexer");
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexer" + Constants.ANSI_RESET);
         readIndexParamsFromFile(indexParamFile);
         setDocParser(p.indexType);
         selectDocumentParser(docModel);

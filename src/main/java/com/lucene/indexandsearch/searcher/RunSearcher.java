@@ -32,7 +32,7 @@ public class RunSearcher {
     protected String qeFile;
 
     protected enum SimModel {
-        BM25, LMD, LMJ
+        CLASSIC, BM25, LMD, LMJ
     }
 
     protected SimModel sim;
@@ -54,23 +54,28 @@ public class RunSearcher {
         colModel = null;
         switch (sim) {
 
+            case CLASSIC:
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "Classic Similarity Function" + Constants.ANSI_RESET);
+                simfn = new ClassicSimilarity();
+                break;
             case BM25:
-                System.out.println("BM25 Similarity Function");
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "BM25 Similarity Function" + Constants.ANSI_RESET);
                 simfn = new BM25Similarity(Constants.k, Constants.b);
                 break;
             case LMD:
-                System.out.println("LM Dirichlet Similarity Function");
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "LM Dirichlet Similarity Function" + Constants.ANSI_RESET);
                 colModel = new LMSimilarity.DefaultCollectionModel();
                 simfn = new LMDirichletSimilarity(colModel, Constants.mu);
                 break;
 
             case LMJ:
-                System.out.println("LM Jelinek Mercer Similarity Function");
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "LM Jelinek Mercer Similarity Function" + Constants.ANSI_RESET);
                 colModel = new LMSimilarity.DefaultCollectionModel();
                 simfn = new LMJelinekMercerSimilarity(colModel, Constants.lam);
                 break;
+
             default:
-                System.out.println("Default Similarity Function");
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "Default Similarity Function" + Constants.ANSI_RESET);
                 simfn = new BM25Similarity();
 
                 break;
@@ -131,7 +136,7 @@ public class RunSearcher {
                             line = br.readLine();
                         } while (line != null && !line.startsWith(".I"));
                     }
-                    System.out.println("QNo:" + qno);
+                    System.out.println(Constants.CYAN_BOLD_BRIGHT + "QNo:" + qno + Constants.ANSI_RESET);
                     ScoreDoc[] scored = runQuery(qno, queryTerms.trim());
 
                     int n = Math.min(Constants.maxResults, scored.length);
@@ -179,7 +184,7 @@ public class RunSearcher {
     }
 
     public RunSearcher(String similarity) {
-        System.out.println("Searcher");
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Searcher" + Constants.ANSI_RESET);
         setParams(similarity);
         try {
             reader = DirectoryReader.open(FSDirectory.open(new File(Constants.indexName).toPath()));
@@ -201,9 +206,11 @@ public class RunSearcher {
         String sim;
         if (args.length != 0) {
             sim = args[0];
+            Constants.MODELUSED = args[0];
         } else {
             System.out.println("Please mention similarity to use or default similarity BM25 would be used.");
             sim = Constants.MODELBM25;
+            Constants.MODELUSED = Constants.MODELBM25;
         }
         RunSearcher searcher = new RunSearcher(sim);
         searcher.processQueryFile();

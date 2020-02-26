@@ -1,5 +1,6 @@
 package com.lucene.indexandsearch;
 
+import com.lucene.indexandsearch.searcher.RunSearcher;
 import com.lucene.indexandsearch.utils.Constants;
 
 import java.io.*;
@@ -15,14 +16,14 @@ public class RunTrecEval {
     }
 
     public static void runTrec() throws IOException {
-        File file = new File(Constants.trecEvalResultFile);
+        File file = new File(Constants.trecEvalResultFile + "_" +Constants.MODELUSED + Constants.TXTExtension);
         FileWriter fw = new FileWriter(file);
         OutputStream out = null;
 
 
         String[] args1 = new String[]{"/bin/bash", "-c", "cd " + System.getProperty("user.dir") + "/data/trec_eval-9.0.7"};
         Process procss = new ProcessBuilder(args1).start();
-        args1 = new String[]{"/bin/bash", "-c", Constants.trecEvalCommand + "_" + Constants.MODELBM25};
+        args1 = new String[]{"/bin/bash", "-c", Constants.trecEvalCommand + "_" + Constants.MODELCLASSIC};
         procss = new ProcessBuilder(args1).start();
         String s = "";
         BufferedReader br = new BufferedReader(
@@ -36,7 +37,7 @@ public class RunTrecEval {
                     trecEvalXYValues.put(xStart, Float.parseFloat(precision));
                     xStart = xStart + 1;
                 }
-                System.out.println(s);
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + s + Constants.ANSI_RESET);
                 fw.write(s);
                 fw.write(System.lineSeparator());
             }
@@ -45,6 +46,6 @@ public class RunTrecEval {
             br.close();
             fw.close();
         }
-        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Trec Eval results are stored at: " + Constants.trecEvalResultFile + Constants.ANSI_RESET);
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Trec Eval results are stored at: " + Constants.trecEvalResultFile + "_" +Constants.MODELUSED + Constants.TXTExtension + Constants.ANSI_RESET);
     }
 }
