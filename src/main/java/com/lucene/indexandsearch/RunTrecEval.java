@@ -15,7 +15,6 @@ public class RunTrecEval {
 
     public static void main(String[] args) throws IOException {
         runTrec();
-
     }
 
     public static void runTrec() throws IOException {
@@ -50,5 +49,6 @@ public class RunTrecEval {
             br.close();
             fw.close();
         }
+        System.out.println("Trec Eval results are stored at: " + Constants.trecEvalResultFile);
     }
 }

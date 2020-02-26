@@ -39,5 +39,7 @@ public class PlotGraph {
         int height = 480;  /* Height of the image */
         File XYChart = new File(Constants.precisionRecallGraphImagePath);
         ChartUtilities.saveChartAsJPEG(XYChart, xylineChart, width, height);
+        System.out.println("Precision VS Recall graph image saved at: " + Constants.precisionRecallGraphImagePath);
+        System.out.println("FINISHED!!");
     }
 }
