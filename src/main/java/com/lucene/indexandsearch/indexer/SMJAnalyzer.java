@@ -28,22 +28,22 @@ public class SMJAnalyzer extends Analyzer {
         //from https://stackoverflow.com/questions/31957986/how-to-combine-analyzer-instances-for-stop-word-removal-and-stemming-in-lucene
 //        tokenStream = new WordDelimiterFilter(tokenStream, WordDelimiterFilter.ALPHA, null);
 
-        File file = new File("data/stopwords.txt");
-
-        String str = "";
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            while((s = br.readLine()) != null){
-
-                str = str + "\"" + s.trim() + "\", ";
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace(
-
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(str);
+//        File file = new File("data/stopwords.txt");
+//
+//        String str = "";
+//        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+//            while((s = br.readLine()) != null){
+//
+//                str = str + "\"" + s.trim() + "\", ";
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace(
+//
+//            );
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(str);
         tokenStream = new LengthFilter(tokenStream, Constants.lengthFilterMinimumLength, Constants.lengthFilterMaximumLength);
         tokenStream = new LowerCaseFilter(tokenStream);
         tokenStream = new StopFilter(tokenStream, stopWordSet);
