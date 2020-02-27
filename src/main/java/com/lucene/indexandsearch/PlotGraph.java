@@ -23,8 +23,8 @@ public class PlotGraph {
             trecEvalMatrixValues.add(i, trecXYValues.get(i));
         }
         final XYSeries idealPrecisionRecall = new XYSeries("Ideal Search Engine Graph");
-        idealPrecisionRecall.add(0, 0.85);
-        idealPrecisionRecall.add(1, 0.85);
+        idealPrecisionRecall.add(0, 0.88);
+        idealPrecisionRecall.add(1, 0.86);
         idealPrecisionRecall.add(2, 0.84);
         idealPrecisionRecall.add(3, 0.84);
         idealPrecisionRecall.add(4, 0.83);
@@ -43,7 +43,7 @@ public class PlotGraph {
         dataset.addSeries(idealPrecisionRecall);
 
         JFreeChart xylineChart = ChartFactory.createXYLineChart(
-                "Precision VS Recall Curve",
+                "Recall VS Precision Curve",
                 "Recall",
                 "Precision",
                 dataset,
