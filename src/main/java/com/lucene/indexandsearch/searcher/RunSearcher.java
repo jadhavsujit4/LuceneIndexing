@@ -1,6 +1,5 @@
 package com.lucene.indexandsearch.searcher;
 
-import com.lucene.indexandsearch.indexer.SMJAnalyzer;
 import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -32,7 +31,7 @@ public class RunSearcher {
     protected String qeFile;
 
     protected enum SimModel {
-        CLASSIC, BM25, LMD, LMJ
+        CLASSIC, BM25, LMD, LMJ, MULTI
     }
 
     protected SimModel sim;
@@ -73,6 +72,10 @@ public class RunSearcher {
                 colModel = new LMSimilarity.DefaultCollectionModel();
                 simfn = new LMJelinekMercerSimilarity(colModel, Constants.lam);
                 break;
+            case MULTI:
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "BM25 Similarity function With Classic Similarity Function" + Constants.ANSI_RESET);
+                simfn = new LMJelinekMercerSimilarity(colModel, Constants.lam);
+                break;
 
             default:
                 System.out.println(Constants.CYAN_BOLD_BRIGHT + "Default Similarity Function" + Constants.ANSI_RESET);
@@ -99,7 +102,7 @@ public class RunSearcher {
 //        }
 
 
-        analyzer = new SMJAnalyzer();
+        analyzer = Constants.ANALYZER;
     }
 
     public void processQueryFile() {
@@ -108,9 +111,9 @@ public class RunSearcher {
         File file1 = new File(Constants.resultsDirectoryPath);
         //Creating the directory
         boolean bool = file1.mkdir();
-        if(bool){
+        if (bool) {
             System.out.println("Directory created successfully");
-        }else{
+        } else {
             System.out.println("Sorry couldn’t create specified directory");
         }
         System.out.println(Constants.CYAN_BOLD_BRIGHT + "Query File..." + Constants.ANSI_RESET);
@@ -193,9 +196,13 @@ public class RunSearcher {
             // create similarity function and parameter
             selectSimilarityFunction(sim);
             searcher.setSimilarity(simfn);
-            analyzer = new SMJAnalyzer();
-            parser = new QueryParser(Constants.FIELD_ALL, analyzer);
 
+            if (similarity.equals("MULTI")) {
+                Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
+                searcher.setSimilarity(new MultiSimilarity(sims));
+            }
+            analyzer = Constants.ANALYZER;
+            parser = new QueryParser(Constants.FIELD_ALL, analyzer);
         } catch (Exception e) {
             System.out.println(" caught a " + e.getClass() +
                     "\n with message: " + e.getMessage());

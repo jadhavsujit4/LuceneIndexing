@@ -30,8 +30,9 @@ public class RunApplication {
             Constants.MODELUSED = sim;
         } else {
             System.out.println("Please mention similarity to use or default similarity BM25 would be used.");
-            sim = Constants.MODELBM25;
-            Constants.MODELUSED = Constants.MODELBM25;
+            sim = Constants.MODELMULTI;
+            Constants.MODELUSED = Constants.MODELMULTI;
+
         }
         RunSearcher searcher = new RunSearcher(sim);
         searcher.processQueryFile();
