@@ -4,19 +4,21 @@
 ## Assignment 1: Lucene and Cranfield by Sujit Jadhav - 19310363 - jadhavs@tcd.ie
 
 ### Project Folder Path 
-/19310363_sujit_jadhav_ir_lucene/LuceneIndexing
+/LuceneIndexing
 ### Result Folder Path 
-/19310363_sujit_jadhav_ir_lucene/LuceneIndexing/data/results
+/LuceneIndexing/data/results
 ### Trec_Eval Folder Path 
-/19310363_sujit_jadhav_ir_lucene/LuceneIndexing/data/trec_eval-9.0.7
+/LuceneIndexing/data/trec_eval-9.0.7
+### Cranfield Data Path
+/LuceneIndexing/data/cran
 
 ## File Naming Convention
 ### Query result file
-query_results_[SimilarityFunctionName]
+query_results_[SimilarityFunctionNamePassedAsArgument]
 ### Trec Eval result file
-TrecEval_Result_[SimilarityFunctionName].txt
+TrecEval_Result_[SimilarityFunctionNamePassedAsArgument].txt
 ### Precision VS Recall Graph Image file
-PRGraph_[SimilarityFunctionName].jpeg
+PRGraph_[SimilarityFunctionNamePassedAsArgument].jpeg
 
 ## Getting Started
 ### How to Run: 
@@ -35,6 +37,7 @@ Trying various other analyzers did not improve the map value by much, therefore,
 2. Used ClassicTokenizer along with ClassicFilter to get the map score of 0.4200. Have used various filters in the order mentioned as  ASCIIFoldingFilter, LengthFilter(min length = 3, max length = 25), LowerCaseFilter, StopFilter(created stopword list manually), KStemFilter and PorterStemFilter.
 3. The map value wasn’t much better when used filters like EnglishPossessiveFilter, ASCIIFoldingFilter, WordDelimiterFilter.
 4. I also tried building Analyzer using Builder, but was stucked at some point due to some file access issue, and ended up using TokenStream.
+
 ## Indexer
 For indexing, I took the folder name as parameter, passed it to be read by a function. This function will read the Cran document file that is to be indexed.
 Index File Reading/Parser
@@ -66,7 +69,7 @@ The following Similarities have been used:
 
 ## Trec Evaluation
 The trec eval runs along the mvn command. To run it separately, use the command from project path given below 
-data/trec_eval-9.0.7/trec_eval data/cran/cranqrel data/results/query_results_[SimilarityFunctionName]
+data/trec_eval-9.0.7/trec_eval data/cran/cranqrel data/results/query_results_[SimilarityFunctionNamePassedAsArgument]
 
 ## Plotting Graph
 To get proper knowledge about how the indexer and searcher is performing, a graph of Recall VS Precision is plotted and in the results folder. Along with my graph, I have also plotted the ideal graph of Recall VS Precision. Below is my best Graph.
