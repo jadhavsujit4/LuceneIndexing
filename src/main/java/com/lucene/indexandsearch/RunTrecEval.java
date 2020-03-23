@@ -1,6 +1,5 @@
 package com.lucene.indexandsearch;
 
-import com.lucene.indexandsearch.searcher.RunSearcher;
 import com.lucene.indexandsearch.utils.Constants;
 
 import java.io.*;

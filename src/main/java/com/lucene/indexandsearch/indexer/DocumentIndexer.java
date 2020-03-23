@@ -4,7 +4,6 @@ package com.lucene.indexandsearch.indexer;
 import com.lucene.indexandsearch.utils.Constants;
 import com.lucene.indexandsearch.utils.TokenAnalyzerMaker;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -18,8 +17,6 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 //import org.apache.commons.compress.compressors.z.ZCompressorInputStream;

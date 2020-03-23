@@ -9,7 +9,6 @@ import org.apache.lucene.analysis.miscellaneous.LengthFilter;
 import org.apache.lucene.analysis.standard.ClassicFilter;
 import org.apache.lucene.analysis.standard.ClassicTokenizer;
 
-import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 

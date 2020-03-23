@@ -97,5 +97,12 @@ public class Constants {
 
     public static final String ANSI_RED_BACKGROUND = "\u001B[41m"; // RED BACKGROUND
 
+
+    // Assignment 2
+    public static final String FBISFILESPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/fbis";
+    public static final String FIELD_TEXT = "text";
+    public static final String DOCNO_TEXT = "docno";
+    public static final String HEADLINE_TEXT = "headline";
+
 }
 
