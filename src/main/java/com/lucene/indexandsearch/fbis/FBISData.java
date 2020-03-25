@@ -1,4 +1,4 @@
-package com.lucene.indexandsearch.FBIS;
+package com.lucene.indexandsearch.fbis;
 
 public class FBISData {
 

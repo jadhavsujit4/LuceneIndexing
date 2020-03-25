@@ -1,4 +1,4 @@
-package com.lucene.indexandsearch.FBIS;
+package com.lucene.indexandsearch.fbis;
 
 import com.lucene.indexandsearch.indexer.DocumentIndexer;
 import com.lucene.indexandsearch.utils.Constants;
@@ -17,8 +17,8 @@ public class FBISIndexer extends DocumentIndexer {
     private static List<Document> fbisDocs = new ArrayList<>();
 
 
-    public FBISIndexer(String indexPath, String tokenFilterFile, boolean positional) {
-        super(indexPath, tokenFilterFile, positional);
+    public FBISIndexer(String indexPath) {
+        super(indexPath);
 
         // Reusable document object to reduce GC overhead
         doc = new Document();

@@ -1,4 +1,4 @@
-package com.lucene.indexandsearch.FBIS;
+package com.lucene.indexandsearch.fbis;
 
 import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.document.Document;

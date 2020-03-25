@@ -104,5 +104,15 @@ public class Constants {
     public static final String DOCNO_TEXT = "docno";
     public static final String HEADLINE_TEXT = "headline";
 
+    public static final int MAX_RETURN_RESULTS = 1000;
+    public static final String ITER_NUM = " 0 ";
+    public static final String searchResultFile2 = "data/results2/query_results2";
+
+    public static final String CRANINDEXTYPE = "cran";
+    public static final String FBISINDEXTYPE = "fbis";
+    public static final String LATTIMESINDEXTYPE = "lattimes";
+
+
+    public static final String INDEXPATH = "index";
 }
 

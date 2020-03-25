@@ -1,4 +1,4 @@
-package com.lucene.indexandsearch.FBIS;
+package com.lucene.indexandsearch.fbis;
 
 public enum FBISTags {
     HEADER("<HEADER>"), TEXT("<TEXT>"), ABS("<ABS>"), AU("<AU>"),

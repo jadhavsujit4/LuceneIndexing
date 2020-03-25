@@ -21,7 +21,7 @@ public class CRANIndexer extends DocumentIndexer {
     private Document doc;
 
     public CRANIndexer(String indexPath, String tokenFilterFile, boolean positional) {
-        super(indexPath, tokenFilterFile, positional);
+        super(indexPath);
 
         // Reusable document object to reduce GC overhead
         doc = new Document();
@@ -33,7 +33,7 @@ public class CRANIndexer extends DocumentIndexer {
     private void initFields() {
         docnumField = new StringField(Constants.FIELD_DOCNUM, "", Field.Store.YES);
         pubdateField = new StringField(Constants.FIELD_PUBDATE, "", Field.Store.YES);
-        if (indexPositions) {
+        if (true) {
             titleField = new TermVectorField(Constants.FIELD_TITLE, "", Field.Store.YES);
             textField = new TermVectorField(Constants.FIELD_CONTENT, "", Field.Store.YES);
             authorField = new TermVectorField(Constants.FIELD_AUTHOR, "", Field.Store.YES);

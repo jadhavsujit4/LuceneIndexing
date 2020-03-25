@@ -103,10 +103,10 @@ public class RunIndexer {
 
     }
 
-    public RunIndexer(String indexParamFile) {
+    public RunIndexer(String docType) {
         System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexer" + Constants.ANSI_RESET);
-        readIndexParamsFromFile(indexParamFile);
-        setDocParser(p.indexType);
+//        readIndexParamsFromFile(indexParamFile);
+        setDocParser(docType);
         selectDocumentParser(docModel);
     }
 
@@ -134,7 +134,7 @@ public class RunIndexer {
 
     public static void main(String[] args) {
 
-        RunIndexer indexer = new RunIndexer(Constants.indexParamFile);
+        RunIndexer indexer = new RunIndexer(Constants.CRANINDEXTYPE);
 
         try {
             ArrayList<String> files = indexer.readFileListFromFile();

@@ -9,7 +9,7 @@ public class RunApplication {
 
     public static void main(String[] args) throws Exception {
 
-        RunIndexer indexer = new RunIndexer(Constants.indexParamFile);
+        RunIndexer indexer = new RunIndexer(Constants.CRANINDEXTYPE);
 
         try {
             ArrayList<String> files = indexer.readFileListFromFile();
