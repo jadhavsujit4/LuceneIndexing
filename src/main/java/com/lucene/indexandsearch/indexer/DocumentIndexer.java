@@ -46,7 +46,7 @@ public class DocumentIndexer {
             Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
 //            MultiSimilarity();
             iwc.setSimilarity(new MultiSimilarity(sims));
-            iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+            iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
             writer = new IndexWriter(dir, iwc);
 
         } catch (IOException e) {

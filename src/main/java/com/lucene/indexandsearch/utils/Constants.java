@@ -99,18 +99,26 @@ public class Constants {
 
 
     // Assignment 2
-    public static final String FBISFILESPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/fbis";
+    public static final String FBISFILESPATH = "rawdata/fbis";
+    public static final String LATIMES_FILESPATH = "rawdata/latimes";
+    public static final String FBISINDEXTYPE = "fbis";
+    public static final String LATTIMESINDEXTYPE = "lattimes";
+    //TODO: add your paths and types
+
+    //indexing tags
     public static final String FIELD_TEXT = "text";
     public static final String DOCNO_TEXT = "docno";
     public static final String HEADLINE_TEXT = "headline";
+    public static final String BYLINE_TEXT = "byline";
+    public static final String GRAPHIC_TEXT = "graphic";
+    public static final String SECTION_TEXT = "section";
 
     public static final int MAX_RETURN_RESULTS = 1000;
     public static final String ITER_NUM = " 0 ";
     public static final String searchResultFile2 = "data/results2/query_results2";
 
     public static final String CRANINDEXTYPE = "cran";
-    public static final String FBISINDEXTYPE = "fbis";
-    public static final String LATTIMESINDEXTYPE = "lattimes";
+    public static final String EXECUTION_TIME = " >> Execution Time in minutes: ";
 
 
     public static final String INDEXPATH = "index";
