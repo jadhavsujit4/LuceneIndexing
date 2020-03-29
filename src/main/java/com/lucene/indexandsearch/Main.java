@@ -1,6 +1,7 @@
 package com.lucene.indexandsearch;
 
 import com.lucene.indexandsearch.fbis.FBISIndexer;
+import com.lucene.indexandsearch.fr94.FR94Indexer;
 import com.lucene.indexandsearch.indexer.DocumentIndexer;
 import com.lucene.indexandsearch.latimes.LATIMESIndexer;
 import com.lucene.indexandsearch.utils.Constants;
@@ -21,6 +22,7 @@ public class Main {
     private DocumentModel docModel;
     public DocumentIndexer diFbis;
     public DocumentIndexer diLatimes;
+    public DocumentIndexer diFr94;
     //TODO add your indexer for your data
 
     public Main(String docType) {
@@ -31,7 +33,7 @@ public class Main {
 
     private enum DocumentModel {
         //TODO add your Docmodel
-        CRAN, FBIS, LATTIMES
+        CRAN, FBIS, LATTIMES, FR94
     }
 
     private void setDocParser(String val) {
@@ -52,15 +54,18 @@ public class Main {
         docModel = dm;
         diFbis = null;
         diLatimes = null;
+        diFr94 = null;
         //TODO: add your DocumentModel in if and else
         if (dm == DocumentModel.FBIS) {
             diFbis = new FBISIndexer(Constants.INDEXPATH);
-        } else if(dm == DocumentModel.LATTIMES)
-        {
+        }
+        else if(dm == DocumentModel.LATTIMES) {
             diLatimes = new LATIMESIndexer(Constants.INDEXPATH);
         }
-        else
-            {
+        else if (dm == DocumentModel.FR94) {
+            diFr94 = new FR94Indexer(INDEXPATH);
+        }
+        else {
             System.out.println(Constants.CYAN_BOLD_BRIGHT + "Default Document Parser" + Constants.ANSI_RESET);
         }
     }
@@ -73,6 +78,10 @@ public class Main {
         else if(filename.equals(Constants.FBISFILESPATH)){
             diFbis.indexDocumentsFromFile(filename);
             diFbis.finished();
+        }
+        else if (filename.equals(FR94FILESPATH)) {
+            diFr94.indexDocumentsFromFile(filename);
+            diFr94.finished();
         }
         //TODO: add your folders
     }
@@ -92,6 +101,7 @@ public class Main {
 
         createIndex(FBISFILESPATH,FBISINDEXTYPE);
         createIndex(LATIMES_FILESPATH, LATTIMESINDEXTYPE);
+        createIndex(FR94FILESPATH, FR94INDEXTYPE);
         //TODO: add your indexer
     }
 
