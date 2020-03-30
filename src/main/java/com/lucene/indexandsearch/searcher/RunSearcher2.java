@@ -12,8 +12,9 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
-import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.BreakIterator;
@@ -41,9 +42,9 @@ public class RunSearcher2 {
         CLASSIC, BM25, LMD, LMJ, MULTI
     }
 
-    protected RunSearcher.SimModel sim;
+    protected static RunSearcher.SimModel sim;
 
-    private void setSim(String val) {
+    private static void setSim(String val) {
         try {
             sim = RunSearcher.SimModel.valueOf(val);
         } catch (Exception e) {
@@ -92,30 +93,16 @@ public class RunSearcher2 {
         }
     }
 
-    public void setParams(String similarityToUse) {
-
-
-//        setSim(Constants.MODELBM25.toUpperCase());
+    public static void setParams(String similarityToUse) {
         setSim(similarityToUse.toUpperCase());
-
-//        System.out.println("Path to index: " + Constants.indexName);
-//        System.out.println("Query File: " + Constants.queryFile);
-//        System.out.println("Result File: " + Constants.searchResultFile);
-//        System.out.println("Model: " + Constants.MODELBM25);
-//        System.out.println("Max Results: " + Constants.maxResults);
-//        if (sim == BM25) {
-//            System.out.println("b value: " + Constants.b);
-//            System.out.println("k value: " + Constants.k);
-//        }
-
-
         analyzer = Constants.ANALYZER;
     }
 
 
-    private static void executeQueries(Directory directory) throws ParseException {
+    private static void executeQueries(String similarity) throws ParseException {
         try {
-            IndexReader indexReader = DirectoryReader.open(directory);
+            IndexReader indexReader = DirectoryReader.open(FSDirectory.open(new File(Constants.INDEXPATH).toPath()));
+            setParams(similarity);
             Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
             Similarity similarityModel = new MultiSimilarity(sims);
             IndexSearcher indexSearcher = createIndexSearcher(indexReader, similarityModel);
@@ -126,9 +113,9 @@ public class RunSearcher2 {
 
             PrintWriter writer = new PrintWriter(Constants.searchResultFile2, "UTF-8");
             List<QueryData> loadedQueries = QueryReader.loadQueriesFromFile();
-
+            int ct = 0;
             for (QueryData queryData : loadedQueries) {
-
+                System.out.println("Query Count" + ct++);
                 List<String> splitNarrative = splitNarrIntoRelNotRel(queryData.getNarrative());
                 String relevantNarr = splitNarrative.get(0).trim();
 
@@ -150,17 +137,20 @@ public class RunSearcher2 {
                         booleanQuery.add(new BoostQuery(narrativeQuery, (float) 1.2), BooleanClause.Occur.SHOULD);
                     }
                     ScoreDoc[] hits = indexSearcher.search(booleanQuery.build(), Constants.MAX_RETURN_RESULTS).scoreDocs;
+                    int n = Math.min(Constants.MAX_RETURN_RESULTS, hits.length);
 
-                    for (int hitIndex = 0; hitIndex < hits.length; hitIndex++) {
+                    for (int hitIndex = 0; hitIndex < n; hitIndex++) {
                         ScoreDoc hit = hits[hitIndex];
-                        writer.println(queryData.getQueryNum() + Constants.ITER_NUM + indexSearcher.doc(hit.doc).get("docno") +
-                                " " + hitIndex + " " + hit.score + Constants.ITER_NUM);
+                        writer.println(queryData.getQueryNum().trim() + "\tQ0\t" + indexSearcher.doc(hit.doc).get("docno") + "\t" +
+                                +hitIndex + "\t" + hit.score + "\t" + Constants.runTag);
+//                        docCount + "\tQ0\t" + docno + "\t" + (i + 1) + "\t" + scored[i].score + "\t" + Constants.runTag
+                        System.out.println(hitIndex);
                     }
                 }
             }
 
-//            closeIndexReader(indexReader);
-//            closePrintWriter(writer);
+            closeIndexReader(indexReader);
+            closePrintWriter(writer);
             System.out.println("queries executed");
 
         } catch (IOException e) {
@@ -209,12 +199,35 @@ public class RunSearcher2 {
 
 
     public static void main(String[] args) {
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Searcher" + Constants.ANSI_RESET);
         System.out.println("loading and executing queries");
         try {
-            executeQueries(null);
+            String sim;
+            if (args.length != 0) {
+                sim = args[0].toUpperCase();
+                Constants.MODELUSED = sim;
+            } else {
+                System.out.println("Please mention similarity to use or default similarity BM25 would be used.");
+                sim = Constants.MODELBM25;
+                Constants.MODELUSED = Constants.MODELBM25;
+            }
+            executeQueries(sim);
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
+    static void closePrintWriter(PrintWriter writer) {
+        writer.flush();
+        writer.close();
+    }
+
+    static void closeIndexReader(IndexReader indexReader) {
+        try {
+            indexReader.close();
+        } catch (IOException e) {
+            System.out.println("ERROR: an error occurred when closing the index from the directory!");
+            System.out.println(String.format("ERROR MESSAGE: %s", e.getMessage()));
+        }
+    }
 }

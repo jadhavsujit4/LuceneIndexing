@@ -12,7 +12,7 @@ public class Constants {
 //    static CharArraySet stopWordSet = new CharArraySet(stopWordList, true);
 //    public static final Analyzer ANALYZER = new EnglishAnalyzer(stopWordSet);
 
-    public static final String indexParamFile = "params/index/index_params.xml";
+//    public static final String indexParamFile = "params/index/index_params.xml";
 
     // Field names
     public static final String FIELD_CONTENT = "content";
@@ -144,6 +144,8 @@ public class Constants {
     public static final String EXECUTION_TIME = " >> Execution Time in minutes: ";
 
 
-    public static final String INDEXPATH = "index";
+    public static final String INDEXPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/index";
+    public static final String QUERYFILEPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/topics";
+
 }
 

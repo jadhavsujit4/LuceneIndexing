@@ -1,17 +1,16 @@
 package com.lucene.indexandsearch.query;
 
+import com.lucene.indexandsearch.utils.Constants;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class QueryReader {
 
 
-    private final static Path currentRelativePath = Paths.get("").toAbsolutePath();
-    private final static String absPathToQueries = String.format("%s/DataSet/topics.401-450", currentRelativePath);
+    private final static String absPathToQueries = String.format(Constants.QUERYFILEPATH);
 
     public static List<QueryData> loadQueriesFromFile() {
         QueryData QueryData = new QueryData();
