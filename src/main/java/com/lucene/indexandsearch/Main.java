@@ -2,6 +2,7 @@ package com.lucene.indexandsearch;
 
 import com.lucene.indexandsearch.fbis.FBISIndexer;
 import com.lucene.indexandsearch.fr94.FR94Indexer;
+import com.lucene.indexandsearch.ft.FTIndexer;
 import com.lucene.indexandsearch.indexer.DocumentIndexer;
 import com.lucene.indexandsearch.latimes.LATIMESIndexer;
 import com.lucene.indexandsearch.utils.Constants;
@@ -23,7 +24,7 @@ public class Main {
     public DocumentIndexer diFbis;
     public DocumentIndexer diLatimes;
     public DocumentIndexer diFr94;
-    //TODO add your indexer for your data
+    public DocumentIndexer diFt;
 
     public Main(String docType) {
         System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexer" + Constants.ANSI_RESET);
@@ -32,8 +33,7 @@ public class Main {
     }
 
     private enum DocumentModel {
-        //TODO add your Docmodel
-        CRAN, FBIS, LATTIMES, FR94
+        CRAN, FBIS, LATTIMES, FR94, FT
     }
 
     private void setDocParser(String val) {
@@ -55,7 +55,8 @@ public class Main {
         diFbis = null;
         diLatimes = null;
         diFr94 = null;
-        //TODO: add your DocumentModel in if and else
+        diFt = null;
+
         if (dm == DocumentModel.FBIS) {
             diFbis = new FBISIndexer(Constants.INDEXPATH);
         }
@@ -64,6 +65,9 @@ public class Main {
         }
         else if (dm == DocumentModel.FR94) {
             diFr94 = new FR94Indexer(INDEXPATH);
+        }
+        else if (dm == DocumentModel.FT) {
+            diFt = new FTIndexer(INDEXPATH);
         }
         else {
             System.out.println(Constants.CYAN_BOLD_BRIGHT + "Default Document Parser" + Constants.ANSI_RESET);
@@ -83,7 +87,10 @@ public class Main {
             diFr94.indexDocumentsFromFile(filename);
             diFr94.finished();
         }
-        //TODO: add your folders
+        else if (filename.equals(FT_FILESPATH)) {
+            diFt.indexDocumentsFromFile(filename);
+            diFt.finished();
+        }
     }
 
     public void finished() {
@@ -99,10 +106,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        createIndex(FBISFILESPATH,FBISINDEXTYPE);
-        createIndex(LATIMES_FILESPATH, LATTIMESINDEXTYPE);
-        createIndex(FR94FILESPATH, FR94INDEXTYPE);
-        //TODO: add your indexer
+        //createIndex(FBISFILESPATH,FBISINDEXTYPE);
+        //createIndex(LATIMES_FILESPATH, LATTIMESINDEXTYPE);
+        //createIndex(FR94FILESPATH, FR94INDEXTYPE);
+        createIndex(FT_FILESPATH, FTINDEXTYPE);
     }
 
     public static void createIndex(String indexData, String indexType){

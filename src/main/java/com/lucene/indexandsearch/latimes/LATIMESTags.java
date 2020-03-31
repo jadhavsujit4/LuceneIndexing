@@ -2,7 +2,7 @@ package com.lucene.indexandsearch.latimes;
 
 public enum LATIMESTags {
     DOCNO("<DOCNO>"), DOCID("<DOCID>"), DATE("<DATE>"), SECTION("<SECTION>"),
-    HEADLINE("<HEADLINE>"), LENGTH("<LENGTH>"), BYINE("<BYLINE>"), GRAPHIC("<GRAPHIC>"), TEXT("<TEXT>"),
+    HEADLINE("<HEADLINE>"), LENGTH("<LENGTH>"), BYLINE("<BYLINE>"), GRAPHIC("<GRAPHIC>"), TEXT("<TEXT>"),
     TYPE("<TYPE>");
 
     String tag;

@@ -102,10 +102,12 @@ public class Constants {
     public static final String FBISFILESPATH = "rawdata/fbis";
     public static final String LATIMES_FILESPATH = "rawdata/latimes";
     public static final String FR94FILESPATH = "rawdata/fr94";
+    public static final String FT_FILESPATH = "rawdata/ft";
+
     public static final String FBISINDEXTYPE = "fbis";
     public static final String LATTIMESINDEXTYPE = "lattimes";
     public static final String FR94INDEXTYPE = "fr94";
-    //TODO: add your paths and types
+    public static final String FTINDEXTYPE = "ft";
 
     //indexing tags
     public static final String FIELD_TEXT = "text";
@@ -134,6 +136,10 @@ public class Constants {
     public static final String FOOTNOTE_TEXT = "footnote";
     public static final String FOOTCITE_TEXT = "footcite";
     public static final String FOOTNAME_TEXT = "footname";
+    public static final String PROFILE_TEXT = "profile";
+    public static final String PUB_TEXT = "pub";
+    public static final String PAGE_TEXT = "page";
+
 
 
     public static final int MAX_RETURN_RESULTS = 1000;
@@ -144,8 +150,8 @@ public class Constants {
     public static final String EXECUTION_TIME = " >> Execution Time in minutes: ";
 
 
-    public static final String INDEXPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/index";
-    public static final String QUERYFILEPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/topics";
+    public static final String INDEXPATH = "index";
+    public static final String QUERYFILEPATH = "rawdata/topics";
 
 }
 
