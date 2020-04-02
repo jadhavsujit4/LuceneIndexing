@@ -15,7 +15,7 @@ public class RunTrecEval {
     }
 
     public static void runTrec() throws IOException {
-        File file = new File(Constants.trecEvalResultFile + "_" +Constants.MODELUSED + Constants.TXTExtension);
+        File file = new File(Constants.trecEvalResultFile + "_" + Constants.MODELUSED + Constants.TXTExtension);
         FileWriter fw = new FileWriter(file);
         OutputStream out = null;
 
@@ -40,11 +40,10 @@ public class RunTrecEval {
                 fw.write(s);
                 fw.write(System.lineSeparator());
             }
-//            System.out.println(trecEvalXYValues);
         } finally {
             br.close();
             fw.close();
         }
-        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Trec Eval results are stored at: " + Constants.trecEvalResultFile + "_" +Constants.MODELUSED + Constants.TXTExtension + Constants.ANSI_RESET);
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Trec Eval results are stored at: " + Constants.trecEvalResultFile + "_" + Constants.MODELUSED + Constants.TXTExtension + Constants.ANSI_RESET);
     }
 }

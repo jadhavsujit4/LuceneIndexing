@@ -34,13 +34,13 @@ public class Constants {
     public static String resultsDirectoryPath = "data/results";
     public static final String indexName = "index";
     public static String queryFile = "data/cran/cran.qry";
-    public static String precisionRecallGraphImagePath = "data/results/PRGraph";
-    public static final String searchResultFile = "data/results/query_results";
+    public static String precisionRecallGraphImagePath = "data/results2/PRGraph";
+    public static final String searchResultFile = "data/results2/query_results";
     public static final String trecEvalPath = "data/trec_eval-9.0.7/trec_eval ";
-    public static final String trecEvalRelevancePath = "data/cran/cranqrel";
+    public static final String trecEvalRelevancePath = "data/qrels.assignment2.part1";
     public static final String trecEvalCommand = trecEvalPath + trecEvalRelevancePath + " " + searchResultFile;
     //    public static final String trecEvalCommand = "data/trec_eval-9.0.7/trec_eval data/cran/cranqrel data/results/bm25_results_BM25";
-    public static final String trecEvalResultFile = "data/results/TrecEval_Result";
+    public static final String trecEvalResultFile = "data/results2/TrecEval_Result";
     public static final String TXTExtension = ".txt";
     public static final int maxResults = 50;
     public static final float k = 1.2f;
@@ -99,11 +99,13 @@ public class Constants {
 
 
     // Assignment 2
-    public static final String FBISFILESPATH = "rawdata/fbis";
-    public static final String LATIMES_FILESPATH = "rawdata/latimes";
-    public static final String FR94FILESPATH = "rawdata/fr94";
+    //Dataset file path
+    public static final String FBISFILESPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/fbis";
+    public static final String LATIMES_FILESPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/latimes";
+    public static final String FR94FILESPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/fr94";
     public static final String FT_FILESPATH = "rawdata/ft";
 
+    //Index types
     public static final String FBISINDEXTYPE = "fbis";
     public static final String LATTIMESINDEXTYPE = "lattimes";
     public static final String FR94INDEXTYPE = "fr94";
@@ -144,7 +146,7 @@ public class Constants {
 
     public static final int MAX_RETURN_RESULTS = 1000;
     public static final String ITER_NUM = " 0 ";
-    public static final String searchResultFile2 = "data/results2/query_results2";
+    public static final String searchResultFile2 = "data/results2/query_results";
 
     public static final String CRANINDEXTYPE = "cran";
     public static final String EXECUTION_TIME = " >> Execution Time in minutes: ";
@@ -152,6 +154,7 @@ public class Constants {
 
     public static final String INDEXPATH = "index";
     public static final String QUERYFILEPATH = "rawdata/topics";
+
 
 }
 

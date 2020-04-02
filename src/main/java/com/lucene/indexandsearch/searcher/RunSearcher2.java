@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.lucene.indexandsearch.searcher.RunSearcher.SimModel.BM25;
+import static com.lucene.indexandsearch.searcher.RunSearcher2.SimModel.BM25;
 
 
 public class RunSearcher2 {
@@ -42,22 +42,22 @@ public class RunSearcher2 {
         CLASSIC, BM25, LMD, LMJ, MULTI
     }
 
-    protected static RunSearcher.SimModel sim;
+    protected static RunSearcher2.SimModel sim;
 
     private static void setSim(String val) {
         try {
-            sim = RunSearcher.SimModel.valueOf(val);
+            sim = RunSearcher2.SimModel.valueOf(val);
         } catch (Exception e) {
             System.out.println("Similarity Function Not Recognized - Setting to Default");
             System.out.println("Possible Similarity Functions are:");
-            for (RunSearcher.SimModel value : RunSearcher.SimModel.values()) {
+            for (RunSearcher2.SimModel value : RunSearcher2.SimModel.values()) {
                 System.out.println("<MODELBM25>" + value.name() + "</MODELBM25>");
             }
             sim = BM25;
         }
     }
 
-    public void selectSimilarityFunction(RunSearcher.SimModel sim) {
+    public void selectSimilarityFunction(RunSearcher2.SimModel sim) {
         colModel = null;
         switch (sim) {
 
@@ -111,7 +111,7 @@ public class RunSearcher2 {
             Map<String, Float> boost = createBoostMap();
             QueryParser queryParser = new MultiFieldQueryParser(new String[]{"headline", "text"}, analyzer, boost);
 
-            PrintWriter writer = new PrintWriter(Constants.searchResultFile2, "UTF-8");
+            PrintWriter writer = new PrintWriter(Constants.searchResultFile2 + "_" + sim, "UTF-8");
             List<QueryData> loadedQueries = QueryReader.loadQueriesFromFile();
             int ct = 0;
             for (QueryData queryData : loadedQueries) {

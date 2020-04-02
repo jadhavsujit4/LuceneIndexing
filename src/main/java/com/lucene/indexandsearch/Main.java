@@ -5,6 +5,7 @@ import com.lucene.indexandsearch.fr94.FR94Indexer;
 import com.lucene.indexandsearch.ft.FTIndexer;
 import com.lucene.indexandsearch.indexer.DocumentIndexer;
 import com.lucene.indexandsearch.latimes.LATIMESIndexer;
+import com.lucene.indexandsearch.searcher.RunSearcher2;
 import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -59,35 +60,28 @@ public class Main {
 
         if (dm == DocumentModel.FBIS) {
             diFbis = new FBISIndexer(Constants.INDEXPATH);
-        }
-        else if(dm == DocumentModel.LATTIMES) {
+        } else if (dm == DocumentModel.LATTIMES) {
             diLatimes = new LATIMESIndexer(Constants.INDEXPATH);
-        }
-        else if (dm == DocumentModel.FR94) {
+        } else if (dm == DocumentModel.FR94) {
             diFr94 = new FR94Indexer(INDEXPATH);
-        }
-        else if (dm == DocumentModel.FT) {
+        } else if (dm == DocumentModel.FT) {
             diFt = new FTIndexer(INDEXPATH);
-        }
-        else {
+        } else {
             System.out.println(Constants.CYAN_BOLD_BRIGHT + "Default Document Parser" + Constants.ANSI_RESET);
         }
     }
 
     public void indexDocumentsFromFile(String filename) {
-        if(filename.equals(LATIMES_FILESPATH)){
+        if (filename.equals(LATIMES_FILESPATH)) {
             diLatimes.indexDocumentsFromFile(filename);
             diLatimes.finished();
-        }
-        else if(filename.equals(Constants.FBISFILESPATH)){
+        } else if (filename.equals(Constants.FBISFILESPATH)) {
             diFbis.indexDocumentsFromFile(filename);
             diFbis.finished();
-        }
-        else if (filename.equals(FR94FILESPATH)) {
+        } else if (filename.equals(FR94FILESPATH)) {
             diFr94.indexDocumentsFromFile(filename);
             diFr94.finished();
-        }
-        else if (filename.equals(FT_FILESPATH)) {
+        } else if (filename.equals(FT_FILESPATH)) {
             diFt.indexDocumentsFromFile(filename);
             diFt.finished();
         }
@@ -104,15 +98,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-
-        //createIndex(FBISFILESPATH,FBISINDEXTYPE);
-        //createIndex(LATIMES_FILESPATH, LATTIMESINDEXTYPE);
-        //createIndex(FR94FILESPATH, FR94INDEXTYPE);
-        createIndex(FT_FILESPATH, FTINDEXTYPE);
-    }
-
-    public static void createIndex(String indexData, String indexType){
+    public static void createIndex(String indexData, String indexType) {
         Instant startTime = Instant.now();
         Main indexer = new Main(indexType);
         try {
@@ -126,7 +112,22 @@ public class Main {
         }
         Instant finishTime = Instant.now();
         long timeElapsed = Duration.between(startTime, finishTime).toMillis();
-        System.out.println(Constants.EXECUTION_TIME + timeElapsed/60000.0);
+        System.out.println(Constants.EXECUTION_TIME + timeElapsed / 60000.0);
         System.out.println(Constants.CYAN_BOLD_BRIGHT + "Done building Index" + Constants.ANSI_RESET);
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        if (args.length != 0 && args[0].equals("1")) {
+            createIndex(FBISFILESPATH, FBISINDEXTYPE);
+            createIndex(LATIMES_FILESPATH, LATTIMESINDEXTYPE);
+            createIndex(FR94FILESPATH, FR94INDEXTYPE);
+            createIndex(FT_FILESPATH, FTINDEXTYPE);
+        }
+        String sim = Constants.MODELMULTI;
+        Constants.MODELUSED = Constants.MODELMULTI;
+        String[] argToPassToSearcher = {sim};
+        RunSearcher2.main(argToPassToSearcher);
+        RunTrecEval.main(null);
     }
 }
