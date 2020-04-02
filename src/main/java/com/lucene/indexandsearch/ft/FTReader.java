@@ -1,4 +1,4 @@
-package com.lucene.indexandsearch.latimes;
+package com.lucene.indexandsearch.ft;
 
 import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.document.Document;
@@ -18,48 +18,46 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LATIMESReader {
+public class FTReader {
 
     private static BufferedReader br;
-    private static List<Document> latimesDocList = new ArrayList<>();
+    private static List<Document> ftDocList = new ArrayList<>();
     private static final String[] IGNORE_FILES = {"readchg.txt", "readmefb.txt"};
 
-    public static List<Document> loadLATIMESDocs(String latimesDirectory) throws IOException {
-        Directory dir = FSDirectory.open(Paths.get(latimesDirectory));
-        for (String latimesFile : dir.listAll()) {
-            if (!latimesFile.equals(IGNORE_FILES[0]) && !latimesFile.equals(IGNORE_FILES[1])) {
-                br = new BufferedReader(new FileReader(latimesDirectory + "/" + latimesFile));
-                LATIMESRead();
+    public static List<Document> loadFTDocs(String ftDirectory) throws IOException {
+        Directory dir = FSDirectory.open(Paths.get(ftDirectory));
+        for (String ftFile : dir.listAll()) {
+            if (!ftFile.equals(IGNORE_FILES[0]) && !ftFile.equals(IGNORE_FILES[1])) {
+                br = new BufferedReader(new FileReader(ftDirectory + "/" + ftFile));
+                FTRead();
             }
         }
-        return latimesDocList;
+        return ftDocList;
     }
 
-    private static void LATIMESRead() throws IOException {
+    private static void FTRead() throws IOException {
 
         String file = readAFile();
         org.jsoup.nodes.Document document = Jsoup.parse(file);
         List<Element> list = document.getElementsByTag("doc");
         for (Element doc : list) {
-            LATIMESData latimesData = new LATIMESData();
-            if (doc.getElementsByTag(LATIMESTags.DOCNO.name()) != null)
-                latimesData.setDocNum(removeUnnecessaryTags(doc, LATIMESTags.DOCNO));
-            if (doc.getElementsByTag(LATIMESTags.HEADLINE.name()) != null)
-                latimesData.setHeadLine(removeUnnecessaryTags(doc, LATIMESTags.HEADLINE));
-            if (doc.getElementsByTag(LATIMESTags.SECTION.name()) != null)
-                latimesData.setSection(removeUnnecessaryTags(doc, LATIMESTags.SECTION));
-            if (doc.getElementsByTag(LATIMESTags.TEXT.name()) != null)
-                latimesData.setText(removeUnnecessaryTags(doc, LATIMESTags.TEXT));
-            if (doc.getElementsByTag(LATIMESTags.BYLINE.name()) != null)
-                latimesData.setByLine(removeUnnecessaryTags(doc, LATIMESTags.BYLINE));
-            if (doc.getElementsByTag(LATIMESTags.GRAPHIC.name()) != null)
-                latimesData.setGraphic(removeUnnecessaryTags(doc, LATIMESTags.GRAPHIC));
-            //latimesData.setAll(latimesData.getDocNum() + " " + latimesData.getText() + " " + latimesData.getTi());
-            latimesDocList.add(createLATIMESDocument(latimesData));
+            FTData ftData = new FTData();
+            if (doc.getElementsByTag(FTTags.DOCNO.name()) != null)
+                ftData.setDocNum(removeUnnecessaryTags(doc, FTTags.DOCNO));
+            if (doc.getElementsByTag(FTTags.HEADLINE.name()) != null)
+                ftData.setHeadLine(removeUnnecessaryTags(doc, FTTags.HEADLINE));
+            if (doc.getElementsByTag(FTTags.TEXT.name()) != null)
+                ftData.setText(removeUnnecessaryTags(doc, FTTags.TEXT));
+            if (doc.getElementsByTag(FTTags.BYLINE.name()) != null)
+                ftData.setByLine(removeUnnecessaryTags(doc, FTTags.BYLINE));
+            if (doc.getElementsByTag(FTTags.PROFILE.name()) != null)
+                ftData.setProfile(removeUnnecessaryTags(doc, FTTags.PROFILE));
+            //ftData.setAll(latimesData.getDocNum() + " " + latimesData.getText() + " " + latimesData.getTi());
+            ftDocList.add(createFTDocument(ftData));
         }
     }
 
-    private static String removeUnnecessaryTags(Element doc, LATIMESTags tag) {
+    private static String removeUnnecessaryTags(Element doc, FTTags tag) {
 
         Elements element = doc.getElementsByTag(tag.name());
         Elements tempElement = element.clone();
@@ -84,9 +82,9 @@ public class LATIMESReader {
         return data;
     }
 
-    private static void deleteNestedTags(Elements element, LATIMESTags currTag) {
+    private static void deleteNestedTags(Elements element, FTTags currTag) {
 
-        for (LATIMESTags tag : LATIMESTags.values()) {
+        for (FTTags tag : FTTags.values()) {
             if (element.toString().contains("<" + tag.name().toLowerCase() + ">") &&
                     element.toString().contains("</" + tag.name().toLowerCase() + ">") && !tag.equals(currTag)) {
                 element.select(tag.toString()).remove();
@@ -94,14 +92,16 @@ public class LATIMESReader {
         }
     }
 
-    private static Document createLATIMESDocument(LATIMESData latimesData) {
+    private static Document createFTDocument(FTData FTData) {
         Document document = new Document();
-        document.add(new StringField(Constants.DOCNO_TEXT, latimesData.getDocNum(), Field.Store.YES));
-        document.add(new TextField(Constants.FIELD_TEXT, latimesData.getText(), Field.Store.YES));
-        document.add(new TextField(Constants.HEADLINE_TEXT, latimesData.getHeadLine(), Field.Store.YES));
-        document.add(new StringField(Constants.SECTION_TEXT, latimesData.getSection(), Field.Store.YES));
-        document.add(new StringField(Constants.GRAPHIC_TEXT, latimesData.getGraphic(), Field.Store.YES));
-        document.add(new TextField(Constants.BYLINE_TEXT, latimesData.getByLine(), Field.Store.YES));
+        document.add(new StringField(Constants.DOCNO_TEXT, FTData.getDocNum(), Field.Store.YES));
+        document.add(new TextField(Constants.FIELD_TEXT, FTData.getText(), Field.Store.YES));
+        document.add(new TextField(Constants.HEADLINE_TEXT, FTData.getHeadLine(), Field.Store.YES));
+        if(!"".equals(FTData.getByLine()))
+        document.add(new TextField(Constants.BYLINE_TEXT, FTData.getByLine(), Field.Store.YES));
+        document.add(new TextField(Constants.PROFILE_TEXT, FTData.getProfile(), Field.Store.YES));
+        //document.add(new TextField(Constants.PAGE_TEXT, FTData.getPage(), Field.Store.YES));
+        //document.add(new TextField(Constants.PUB_TEXT, FTData.getPub(), Field.Store.YES));
         //document.add(new TextField(Constants.FIELD_ALL, latimesData.getAll(), Field.Store.YES));
         return document;
     }
