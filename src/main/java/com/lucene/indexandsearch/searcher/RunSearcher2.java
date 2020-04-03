@@ -143,14 +143,13 @@ public class RunSearcher2 {
                         writer.println(queryData.getQueryNum().trim() + "\tQ0\t" + indexSearcher.doc(hit.doc).get("docno") + "\t" +
                                 +hitIndex + "\t" + hit.score + "\t" + Constants.runTag);
 //                        docCount + "\tQ0\t" + docno + "\t" + (i + 1) + "\t" + scored[i].score + "\t" + Constants.runTag
-                        System.out.println(hitIndex);
                     }
                 }
             }
 
             closeIndexReader(indexReader);
             closePrintWriter(writer);
-            System.out.println("queries executed");
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Queries executed" + Constants.ANSI_RESET);
 
         } catch (IOException e) {
             System.out.println("ERROR: an error occurred when instantiating the printWriter!");
@@ -199,7 +198,7 @@ public class RunSearcher2 {
 
     public static void main(String[] args) {
         System.out.println(Constants.CYAN_BOLD_BRIGHT + "Searcher" + Constants.ANSI_RESET);
-        System.out.println("loading and executing queries");
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Loading and executing queries" + Constants.ANSI_RESET);
         try {
             String sim;
             if (args.length != 0) {

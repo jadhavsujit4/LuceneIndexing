@@ -152,7 +152,7 @@ public class Constants {
     public static final String EXECUTION_TIME = " >> Execution Time in minutes: ";
 
 
-    public static final String INDEXPATH = "index";
+    public static final String INDEXPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment/Assignment/index";
     public static final String QUERYFILEPATH = "rawdata/topics";
 
 
