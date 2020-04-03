@@ -12,7 +12,6 @@
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/latimes/LATIMESData.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/fbis/FBISReader.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/fr94/FR94Data.java
-/home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/indexer/TermVectorField.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/indexer/DocumentIndexer.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/fbis/FBISIndexer.java
 /home/sujit/IdeaProjects/LuceneIndexing/src/main/java/com/lucene/indexandsearch/latimes/LATIMESIndexer.java

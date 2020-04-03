@@ -29,12 +29,12 @@ import static com.lucene.indexandsearch.searcher.RunSearcher2.SimModel.BM25;
 public class RunSearcher2 {
 
 
-    protected Similarity simfn;
+    protected static Similarity simfn;
     protected IndexReader reader;
-    protected IndexSearcher searcher;
+    protected static IndexSearcher searcher;
     protected static Analyzer analyzer;
     protected QueryParser parser;
-    protected LMSimilarity.CollectionModel colModel;
+    protected static LMSimilarity.CollectionModel colModel;
     protected String fieldsFile;
     protected String qeFile;
 
@@ -57,7 +57,7 @@ public class RunSearcher2 {
         }
     }
 
-    public void selectSimilarityFunction(RunSearcher2.SimModel sim) {
+    public static void selectSimilarityFunction(RunSearcher2.SimModel sim) {
         colModel = null;
         switch (sim) {
 
@@ -103,9 +103,16 @@ public class RunSearcher2 {
         try {
             IndexReader indexReader = DirectoryReader.open(FSDirectory.open(new File(Constants.INDEXPATH).toPath()));
             setParams(similarity);
-            Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
-            Similarity similarityModel = new MultiSimilarity(sims);
-            IndexSearcher indexSearcher = createIndexSearcher(indexReader, similarityModel);
+
+            // create similarity function and parameter
+            selectSimilarityFunction(sim);
+            searcher.setSimilarity(simfn);
+            IndexSearcher indexSearcher = createIndexSearcher(indexReader, simfn);
+            if (similarity.equalsIgnoreCase(Constants.MODELMULTI)) {
+                Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
+                Similarity similarityModel = new MultiSimilarity(sims);
+                indexSearcher = createIndexSearcher(indexReader, similarityModel);
+            }
             analyzer = Constants.ANALYZER;
 
             Map<String, Float> boost = createBoostMap();
@@ -206,8 +213,8 @@ public class RunSearcher2 {
                 Constants.MODELUSED = sim;
             } else {
                 System.out.println("Please mention similarity to use or default similarity BM25 would be used.");
-                sim = Constants.MODELBM25;
-                Constants.MODELUSED = Constants.MODELBM25;
+                sim = Constants.MODELMULTI;
+                Constants.MODELUSED = Constants.MODELMULTI;
             }
             executeQueries(sim);
         } catch (ParseException e) {

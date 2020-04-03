@@ -94,17 +94,11 @@
             <version>8.4.1</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api-osgi -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0-b170201.1204</version>
+            <artifactId>jaxb-api-osgi</artifactId>
+            <version>2.2-promoted-b65</version>
         </dependency>
 
         <dependency>
@@ -119,12 +113,12 @@
             <version>1.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>2.3.0-b170127.1453</version>
-        </dependency>
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.glassfish.jaxb</groupId>-->
+        <!--            <artifactId>jaxb-runtime</artifactId>-->
+        <!--            <version>2.3.0-b170127.1453</version>-->
+        <!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/jfree/jfreechart -->
         <dependency>
@@ -133,17 +127,17 @@
             <version>1.0.13</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>2.2.8-b01</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.sun.xml.bind</groupId>-->
+        <!--            <artifactId>jaxb-core</artifactId>-->
+        <!--            <version>2.2.8-b01</version>-->
+        <!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.2-promoted-b65</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.sun.xml.bind</groupId>-->
+        <!--            <artifactId>jaxb-impl</artifactId>-->
+        <!--            <version>2.2-promoted-b65</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.jsoup</groupId>

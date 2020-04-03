@@ -10,6 +10,7 @@ import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.FSDirectory;
+import org.codehaus.plexus.util.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -119,6 +120,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         if (args.length != 0 && args[0].equals("1")) {
+            FileUtils.cleanDirectory(INDEXPATH);
             createIndex(FBISFILESPATH, FBISINDEXTYPE);
             createIndex(LATIMES_FILESPATH, LATTIMESINDEXTYPE);
             createIndex(FR94FILESPATH, FR94INDEXTYPE);

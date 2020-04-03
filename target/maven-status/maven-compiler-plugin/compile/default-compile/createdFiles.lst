@@ -28,7 +28,6 @@ com/lucene/indexandsearch/fr94/FR94Tags.class
 com/lucene/indexandsearch/RunTrecEval.class
 com/lucene/indexandsearch/searcher/RunSearcher2$SimModel.class
 com/lucene/indexandsearch/latimes/LATIMESData.class
-com/lucene/indexandsearch/indexer/TermVectorField.class
 com/lucene/indexandsearch/utils/Param.class
 com/lucene/indexandsearch/utils/TokenFilter.class
 com/lucene/indexandsearch/latimes/LATIMESTags.class
