@@ -115,7 +115,6 @@ public class RunSearcher2 {
             List<QueryData> loadedQueries = QueryReader.loadQueriesFromFile();
             int ct = 0;
             for (QueryData queryData : loadedQueries) {
-                System.out.println("Query Count" + ct++);
                 List<String> splitNarrative = splitNarrIntoRelNotRel(queryData.getNarrative());
                 String relevantNarr = splitNarrative.get(0).trim();
 

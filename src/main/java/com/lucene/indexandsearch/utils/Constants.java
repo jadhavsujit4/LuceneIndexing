@@ -100,9 +100,9 @@ public class Constants {
 
     // Assignment 2
     //Dataset file path
-    public static final String FBISFILESPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/fbis";
-    public static final String LATIMES_FILESPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/latimes";
-    public static final String FR94FILESPATH = "/media/sujit/New Volume/Masters/Semester 2/IR/Assignment Two/Assignment Two/fr94";
+    public static final String FBISFILESPATH = "rawdata/fbis";
+    public static final String LATIMES_FILESPATH = "rawdata/latimes";
+    public static final String FR94FILESPATH = "rawdata/fr94";
     public static final String FT_FILESPATH = "rawdata/ft";
 
     //Index types
