@@ -38,8 +38,8 @@
                         <argument>com.example.Main</argument>
                     </arguments>
 
-                    <mainClass>com.lucene.indexandsearch.RunApplication</mainClass>
-                    <arguments>${similarity}</arguments>
+                    <mainClass>com.lucene.indexandsearch.Main</mainClass>
+                    <arguments>${option}</arguments>
                     <additionalClasspathElements>
                         <additionalClasspathElement>
                             /tmp/externalTestJars/testjar.jar
