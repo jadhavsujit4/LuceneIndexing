@@ -31,7 +31,6 @@ public class RunSearcher2 {
 
     protected static Similarity simfn;
     protected IndexReader reader;
-    protected static IndexSearcher searcher;
     protected static Analyzer analyzer;
     protected QueryParser parser;
     protected static LMSimilarity.CollectionModel colModel;
@@ -106,7 +105,6 @@ public class RunSearcher2 {
 
             // create similarity function and parameter
             selectSimilarityFunction(sim);
-            searcher.setSimilarity(simfn);
             IndexSearcher indexSearcher = createIndexSearcher(indexReader, simfn);
             if (similarity.equalsIgnoreCase(Constants.MODELMULTI)) {
                 Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
@@ -212,7 +210,7 @@ public class RunSearcher2 {
                 sim = args[0].toUpperCase();
                 Constants.MODELUSED = sim;
             } else {
-                System.out.println("Please mention similarity to use or default similarity BM25 would be used.");
+                System.out.println("Please mention similarity to use or default similarity MULTI(BM25 + Classic) Similarity would be used.");
                 sim = Constants.MODELMULTI;
                 Constants.MODELUSED = Constants.MODELMULTI;
             }
