@@ -7,9 +7,7 @@
     <groupId>org.my.lucene</groupId>
     <artifactId>LuceneIndexing</artifactId>
     <version>1.0</version>
-
     <build>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -18,17 +16,8 @@
                     <source>8</source>
                     <target>8</target>
                 </configuration>
-
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M4</version>
-                <configuration>
-                    <argLine>-Xmx4096m</argLine>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -43,22 +32,14 @@
                 </executions>
                 <configuration>
                     <executable>java</executable>
-
                     <arguments>
                         <argument>-cp</argument>
                         <argument>/tmp/externalTestJars/testjar.jar</argument>
-                        <extraJvmArguments>-Xmx4096m</extraJvmArguments>
                         <argument>com.example.Main</argument>
-                        <configuration>
-                            <argLine>-Xmx4096m</argLine>
-                        </configuration>
                     </arguments>
 
                     <mainClass>com.lucene.indexandsearch.Main</mainClass>
-
-                    <arguments>${option}
-                    </arguments>
-
+                    <arguments>${option}</arguments>
                     <additionalClasspathElements>
                         <additionalClasspathElement>
                             /tmp/externalTestJars/testjar.jar
