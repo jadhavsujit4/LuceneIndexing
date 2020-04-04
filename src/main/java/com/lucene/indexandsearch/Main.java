@@ -28,7 +28,7 @@ public class Main {
     public DocumentIndexer diFr94;
     public DocumentIndexer diFt;
 
-    public Main(String docType) {
+    public Main(String docType) throws IOException {
         System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexer" + Constants.ANSI_RESET);
         setDocParser(docType);
         selectDocumentParser(docModel);
@@ -52,7 +52,7 @@ public class Main {
         }
     }
 
-    public void selectDocumentParser(DocumentModel dm) {
+    public void selectDocumentParser(DocumentModel dm) throws IOException {
         docModel = dm;
         diFbis = null;
         diLatimes = null;
@@ -60,31 +60,15 @@ public class Main {
         diFt = null;
 
         if (dm == DocumentModel.FBIS) {
-            diFbis = new FBISIndexer(Constants.INDEXPATH);
+            new FBISIndexer(Constants.INDEXPATH);
         } else if (dm == DocumentModel.LATTIMES) {
-            diLatimes = new LATIMESIndexer(Constants.INDEXPATH);
+            new LATIMESIndexer(Constants.INDEXPATH);
         } else if (dm == DocumentModel.FR94) {
-            diFr94 = new FR94Indexer(INDEXPATH);
+            new FR94Indexer(INDEXPATH);
         } else if (dm == DocumentModel.FT) {
-            diFt = new FTIndexer(INDEXPATH);
+            new FTIndexer(Constants.INDEXPATH);
         } else {
             System.out.println(Constants.CYAN_BOLD_BRIGHT + "Default Document Parser" + Constants.ANSI_RESET);
-        }
-    }
-
-    public void indexDocumentsFromFile(String filename) {
-        if (filename.equals(LATIMES_FILESPATH)) {
-            diLatimes.indexDocumentsFromFile(filename);
-            diLatimes.finished();
-        } else if (filename.equals(Constants.FBISFILESPATH)) {
-            diFbis.indexDocumentsFromFile(filename);
-            diFbis.finished();
-        } else if (filename.equals(FR94FILESPATH)) {
-            diFr94.indexDocumentsFromFile(filename);
-            diFr94.finished();
-        } else if (filename.equals(FT_FILESPATH)) {
-            diFt.indexDocumentsFromFile(filename);
-            diFt.finished();
         }
     }
 
@@ -99,12 +83,11 @@ public class Main {
         }
     }
 
-    public static void createIndex(String indexData, String indexType) {
+    public static void createIndex(String indexData, String indexType) throws IOException {
         Instant startTime = Instant.now();
         Main indexer = new Main(indexType);
         try {
             System.out.println(Constants.CYAN_BOLD_BRIGHT + "About to Index Files from data: " + indexType + Constants.ANSI_RESET);
-            indexer.indexDocumentsFromFile(indexData);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

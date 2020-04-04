@@ -3,79 +3,128 @@ package com.lucene.indexandsearch.fbis;
 import com.lucene.indexandsearch.indexer.DocumentIndexer;
 import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FBISIndexer extends DocumentIndexer {
 
-    //    private Field docNoField;
-//    private Field headerField;
-//    private Field textField;
-//    private Field allField;
-    private Document doc;
-    private static List<Document> fbisDocs = new ArrayList<>();
+    private static BufferedReader br;
+    private static List<Document> fbisDocList = new ArrayList<>();
+    private static final String[] IGNORE_FILES = {"readchg.txt", "readmefb.txt"};
 
-
-    public FBISIndexer(String indexPath) {
+    public FBISIndexer(String indexPath) throws IOException {
         super(indexPath);
-
-        // Reusable document object to reduce GC overhead
-        doc = new Document();
-
-//        initFields();
-//        initFBISDoc();
+        loadFBISDocs(Constants.FBISFILESPATH);
+        finished();
     }
 
-//    private void initFields() {
-//        docNoField = new StringField(Constants.FIELD_DOCNUM, "", Field.Store.YES);
-//        if (indexPositions) {
-//            headerField = new TermVectorField(Constants.FIELD_TITLE, "", Field.Store.YES);
-//            textField = new TermVectorField(Constants.FIELD_TEXT, "", Field.Store.YES);
-//            allField = new TermVectorField(Constants.FIELD_ALL, "", Field.Store.YES);
-//        } else {
-//            headerField = new TextField(Constants.FIELD_TITLE, "", Field.Store.YES);
-//            textField = new TextField(Constants.FIELD_TEXT, "", Field.Store.YES);
-//            allField = new TextField(Constants.FIELD_ALL, "", Field.Store.YES);
-//        }
-//    }
-//
-//    private void initFBISDoc() {
-//        doc.add(docNoField);
-//        doc.add(headerField);
-//        doc.add(textField);
-//        doc.add(allField);
-//    }
-
-//    public Document createFBISDocument(String docid, String title, String author, String pubdate, String content) {
-//
-//        docNoField.setStringValue(docid);
-//        headerField.setStringValue(title);
-//        textField.setStringValue(content);
-//        allField.setStringValue(title + " " + author + " " + content);
-//
-//        doc.add(docNoField);
-//        doc.add(headerField);
-//        doc.add(textField);
-//        doc.add(allField);
-//
-//        return doc;
-//    }
-
-
-    public void indexDocumentsFromFile(String fileName) {
-        try {
-
-            System.out.println("Indexing FBIS Documents");
-            fbisDocs = FBISReader.loadFBISDocs(Constants.FBISFILESPATH);
-            for (Document aDoc : fbisDocs
-            ) {
-                addDocToIndex(aDoc);
+    public List<Document> loadFBISDocs(String fbisDirectory) throws IOException {
+        Directory dir = FSDirectory.open(Paths.get(fbisDirectory));
+        for (String fbisFile : dir.listAll()) {
+            if (!fbisFile.equals(IGNORE_FILES[0]) && !fbisFile.equals(IGNORE_FILES[1])) {
+                br = new BufferedReader(new FileReader(fbisDirectory + "/" + fbisFile));
+                indexDocumentsFromFile();
             }
-            System.out.println("Indexed FBIS Documents");
-        } catch (Exception e) {
-            System.out.println(" caught a " + e.getClass() +
-                    "\n with message: " + e.getMessage());
+        }
+        return fbisDocList;
+    }
+
+    private void indexDocumentsFromFile() throws IOException {
+
+        String file = readAFile();
+        org.jsoup.nodes.Document document = Jsoup.parse(file);
+
+        List<Element> list = document.getElementsByTag("doc");
+
+//        String date = "",day = "",month ="",year ="";
+
+        for (Element doc : list) {
+
+            FBISData fbisData = new FBISData();
+            if (doc.getElementsByTag(FBISTags.DOCNO.name()) != null)
+                fbisData.setDocNum(removeUnnecessaryTags(doc, FBISTags.DOCNO));
+            if (doc.getElementsByTag(FBISTags.TEXT.name()) != null)
+                fbisData.setText(removeUnnecessaryTags(doc, FBISTags.TEXT));
+            if (doc.getElementsByTag(FBISTags.TI.name()) != null)
+                fbisData.setTi(removeUnnecessaryTags(doc, FBISTags.TI));
+
+            fbisData.setAll(fbisData.getDocNum() + " " + fbisData.getText() + " " + fbisData.getTi());
+
+//            fbisDocList.add(createFBISDocument(fbisData));
+            addDocToIndex(createFBISDocument(fbisData));
         }
     }
+
+    private static String removeUnnecessaryTags(Element doc, FBISTags tag) {
+
+        Elements element = doc.getElementsByTag(tag.name());
+        Elements tempElement = element.clone();
+        //remove any nested
+        deleteNestedTags(tempElement, tag);
+        String data = tempElement.toString();
+
+        //remove any instance of "\n"
+        if (data.contains("\n"))
+            data = data.replaceAll("\n", "").trim();
+        //remove start and end tags
+        if (data.contains(("<" + tag.name() + ">").toLowerCase()))
+            data = data.replaceAll("<" + tag.name().toLowerCase() + ">", "").trim();
+        if (data.contains(("</" + tag.name() + ">").toLowerCase()))
+            data = data.replaceAll("</" + tag.name().toLowerCase() + ">", "").trim();
+
+        return data;
+    }
+
+    private static void deleteNestedTags(Elements element, FBISTags currTag) {
+
+        for (FBISTags tag : FBISTags.values()) {
+            if (element.toString().contains("<" + tag.name().toLowerCase() + ">") &&
+                    element.toString().contains("</" + tag.name().toLowerCase() + ">") && !tag.equals(currTag)) {
+                element.select(tag.toString()).remove();
+            }
+        }
+    }
+
+    private static Document createFBISDocument(FBISData fbisData) {
+        Document document = new Document();
+        document.add(new StringField(Constants.DOCNO_TEXT, fbisData.getDocNum(), Field.Store.YES));
+        document.add(new TextField(Constants.HEADLINE_TEXT, fbisData.getTi(), Field.Store.YES));
+        document.add(new TextField(Constants.FIELD_TEXT, fbisData.getText(), Field.Store.YES));
+        document.add(new TextField(Constants.FIELD_ALL, fbisData.getAll(), Field.Store.YES));
+        return document;
+    }
+
+    private static String readAFile() throws IOException {
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append("\n");
+                line = br.readLine();
+            }
+            return sb.toString();
+        } finally {
+            br.close();
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        FBISIndexer fbisIndexer = new FBISIndexer(Constants.INDEXPATH);
+    }
+
 }
