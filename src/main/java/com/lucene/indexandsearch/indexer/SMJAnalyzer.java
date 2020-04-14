@@ -1,19 +1,28 @@
 package com.lucene.indexandsearch.indexer;
 
-import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.analysis.*;
+import org.apache.lucene.analysis.core.FlattenGraphFilter;
 import org.apache.lucene.analysis.en.KStemFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter;
 import org.apache.lucene.analysis.miscellaneous.LengthFilter;
 import org.apache.lucene.analysis.standard.ClassicFilter;
 import org.apache.lucene.analysis.standard.ClassicTokenizer;
+import org.apache.lucene.analysis.synonym.SynonymGraphFilter;
+import org.apache.lucene.analysis.synonym.SynonymMap;
+import org.apache.lucene.util.CharsRef;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class SMJAnalyzer extends Analyzer {
+
+    private final Path currentRelativePath = Paths.get("").toAbsolutePath();
+
     @Override
     protected TokenStreamComponents createComponents(String s) {
         Tokenizer stdTokenizer = new ClassicTokenizer();
@@ -35,7 +44,7 @@ public class SMJAnalyzer extends Analyzer {
 //
 //                str = str + "\"" + s.trim() + "\", ";
 //            }
-//        } catch (FileNotFoundException e) {
+//        } catch (FileNotFoundException e) {import org.apache.lucene.util.Constants;
 //            e.printStackTrace(
 //
 //            );
@@ -46,9 +55,32 @@ public class SMJAnalyzer extends Analyzer {
         tokenStream = new LengthFilter(tokenStream, Constants.lengthFilterMinimumLength, Constants.lengthFilterMaximumLength);
         tokenStream = new LowerCaseFilter(tokenStream);
         tokenStream = new StopFilter(tokenStream, stopWordSet);
+        tokenStream = new FlattenGraphFilter(new SynonymGraphFilter(tokenStream, createSynonymMap(), true));
 //        tokenStream = new EnglishPossessiveFilter(tokenStream);
         tokenStream = new KStemFilter(tokenStream);
         tokenStream = new PorterStemFilter(tokenStream);
         return new TokenStreamComponents(stdTokenizer, tokenStream);
+    }
+
+
+    private SynonymMap createSynonymMap() {
+        SynonymMap synMap = new SynonymMap(null, null, 0);
+        try {
+            BufferedReader countries = new BufferedReader(new FileReader(currentRelativePath + "/rawdata/countries.txt"));
+
+            final SynonymMap.Builder builder = new SynonymMap.Builder(true);
+            String country = countries.readLine();
+
+            while (country != null) {
+                builder.add(new CharsRef("country"), new CharsRef(country), true);
+                builder.add(new CharsRef("countries"), new CharsRef(country), true);
+                country = countries.readLine();
+            }
+
+            synMap = builder.build();
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getLocalizedMessage() + "occurred when trying to create synonym map");
+        }
+        return synMap;
     }
 }
