@@ -109,8 +109,8 @@ public class Main {
             createIndex(FR94FILESPATH, FR94INDEXTYPE);
             createIndex(FT_FILESPATH, FTINDEXTYPE);
         }
-        String sim = Constants.MODELMULTI;
-        Constants.MODELUSED = Constants.MODELMULTI;
+        String sim = MODELBM25;
+        Constants.MODELUSED = MODELBM25;
         String[] argToPassToSearcher = {sim};
         Searcher.main(argToPassToSearcher);
         RunTrecEval.main(null);

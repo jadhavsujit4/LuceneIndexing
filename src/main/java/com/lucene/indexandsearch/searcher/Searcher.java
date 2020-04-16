@@ -7,7 +7,6 @@ import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
@@ -98,7 +97,8 @@ public class Searcher {
             selectSimilarityFunction(sim);
             IndexSearcher indexSearcher = createIndexSearcher(indexReader, simfn);
             if (similarity.equalsIgnoreCase(Constants.MODELMULTI)) {
-                Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
+//                Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
+                Similarity[] sims = {new BM25Similarity(), new LMJelinekMercerSimilarity(new LMSimilarity.DefaultCollectionModel(), Constants.lam)};
                 Similarity similarityModel = new MultiSimilarity(sims);
                 indexSearcher = createIndexSearcher(indexReader, similarityModel);
             }
