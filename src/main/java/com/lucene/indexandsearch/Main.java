@@ -5,7 +5,7 @@ import com.lucene.indexandsearch.fr94.FR94Indexer;
 import com.lucene.indexandsearch.ft.FTIndexer;
 import com.lucene.indexandsearch.indexer.DocumentIndexer;
 import com.lucene.indexandsearch.latimes.LATIMESIndexer;
-import com.lucene.indexandsearch.searcher.RunSearcher2;
+import com.lucene.indexandsearch.searcher.Searcher;
 import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -112,7 +112,7 @@ public class Main {
         String sim = Constants.MODELMULTI;
         Constants.MODELUSED = Constants.MODELMULTI;
         String[] argToPassToSearcher = {sim};
-        RunSearcher2.main(argToPassToSearcher);
+        Searcher.main(argToPassToSearcher);
         RunTrecEval.main(null);
     }
 }

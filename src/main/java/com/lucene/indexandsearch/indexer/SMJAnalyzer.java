@@ -1,5 +1,6 @@
 package com.lucene.indexandsearch.indexer;
 
+import com.lucene.indexandsearch.utils.Constants;
 import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.core.FlattenGraphFilter;
 import org.apache.lucene.analysis.en.KStemFilter;

@@ -23,40 +23,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.lucene.indexandsearch.searcher.RunSearcher2.SimModel.BM25;
+import static com.lucene.indexandsearch.searcher.Searcher.SimModel.BM25;
 
 
-public class RunSearcher2 {
-
+public class Searcher {
 
     protected static Similarity simfn;
     protected IndexReader reader;
     protected static Analyzer analyzer;
     protected QueryParser parser;
     protected static LMSimilarity.CollectionModel colModel;
-    protected String fieldsFile;
-    protected String qeFile;
 
     protected enum SimModel {
         CLASSIC, BM25, LMD, LMJ, MULTI
     }
-
-    protected static RunSearcher2.SimModel sim;
-
+    protected static Searcher.SimModel sim;
     private static void setSim(String val) {
         try {
-            sim = RunSearcher2.SimModel.valueOf(val);
+            sim = Searcher.SimModel.valueOf(val);
         } catch (Exception e) {
             System.out.println("Similarity Function Not Recognized - Setting to Default");
             System.out.println("Possible Similarity Functions are:");
-            for (RunSearcher2.SimModel value : RunSearcher2.SimModel.values()) {
+            for (Searcher.SimModel value : Searcher.SimModel.values()) {
                 System.out.println("<MODELBM25>" + value.name() + "</MODELBM25>");
             }
             sim = BM25;
         }
     }
 
-    public static void selectSimilarityFunction(RunSearcher2.SimModel sim) {
+    public static void selectSimilarityFunction(Searcher.SimModel sim) {
         colModel = null;
         switch (sim) {
 
@@ -73,7 +68,6 @@ public class RunSearcher2 {
                 colModel = new LMSimilarity.DefaultCollectionModel();
                 simfn = new LMDirichletSimilarity(colModel, Constants.mu);
                 break;
-
             case LMJ:
                 System.out.println(Constants.CYAN_BOLD_BRIGHT + "LM Jelinek Mercer Similarity Function" + Constants.ANSI_RESET);
                 colModel = new LMSimilarity.DefaultCollectionModel();
@@ -87,7 +81,6 @@ public class RunSearcher2 {
             default:
                 System.out.println(Constants.CYAN_BOLD_BRIGHT + "Default Similarity Function" + Constants.ANSI_RESET);
                 simfn = new BM25Similarity();
-
                 break;
         }
     }
@@ -102,8 +95,6 @@ public class RunSearcher2 {
         try {
             IndexReader indexReader = DirectoryReader.open(FSDirectory.open(new File(Constants.INDEXPATH).toPath()));
             setParams(similarity);
-
-            // create similarity function and parameter
             selectSimilarityFunction(sim);
             IndexSearcher indexSearcher = createIndexSearcher(indexReader, simfn);
             if (similarity.equalsIgnoreCase(Constants.MODELMULTI)) {
@@ -114,7 +105,8 @@ public class RunSearcher2 {
             analyzer = Constants.ANALYZER;
 
             Map<String, Float> boost = createBoostMap();
-            QueryParser queryParser = new MultiFieldQueryParser(new String[]{"headline", "text"}, analyzer, boost);
+            QueryParser queryParser = new QueryParser("all", analyzer);
+            //QueryParser queryParser = new MultiFieldQueryParser(new String[]{"all"}, analyzer, boost);
 
             PrintWriter writer = new PrintWriter(Constants.searchResultFile2 + "_" + sim, "UTF-8");
             List<QueryData> loadedQueries = QueryReader.loadQueriesFromFile();
@@ -135,19 +127,21 @@ public class RunSearcher2 {
                     }
 
                     booleanQuery.add(new BoostQuery(titleQuery, (float) 4), BooleanClause.Occur.SHOULD);
-                    booleanQuery.add(new BoostQuery(descriptionQuery, (float) 1.7), BooleanClause.Occur.SHOULD);
+                    booleanQuery.add(new BoostQuery(descriptionQuery, (float) 2.0), BooleanClause.Occur.SHOULD);
 
                     if (narrativeQuery != null) {
-                        booleanQuery.add(new BoostQuery(narrativeQuery, (float) 1.2), BooleanClause.Occur.SHOULD);
+                        booleanQuery.add(new BoostQuery(narrativeQuery, (float) 1.0), BooleanClause.Occur.SHOULD);
                     }
                     ScoreDoc[] hits = indexSearcher.search(booleanQuery.build(), Constants.MAX_RETURN_RESULTS).scoreDocs;
                     int n = Math.min(Constants.MAX_RETURN_RESULTS, hits.length);
 
                     for (int hitIndex = 0; hitIndex < n; hitIndex++) {
                         ScoreDoc hit = hits[hitIndex];
-                        writer.println(queryData.getQueryNum().trim() + "\tQ0\t" + indexSearcher.doc(hit.doc).get("docno") + "\t" +
-                                +hitIndex + "\t" + hit.score + "\t" + Constants.runTag);
-//                        docCount + "\tQ0\t" + docno + "\t" + (i + 1) + "\t" + scored[i].score + "\t" + Constants.runTag
+                        writer.println(queryData.getQueryNum().trim()
+                                + "\tQ0\t" + indexSearcher.doc(hit.doc).get("docno")
+                                + "\t" + +hitIndex
+                                + "\t" + hit.score
+                                + "\t" + Constants.runTag);
                     }
                 }
             }
@@ -166,13 +160,11 @@ public class RunSearcher2 {
         StringBuilder relevantNarr = new StringBuilder();
         StringBuilder irrelevantNarr = new StringBuilder();
         List<String> splitNarrative = new ArrayList<>();
-
         BreakIterator bi = BreakIterator.getSentenceInstance();
         bi.setText(narrative);
         int index = 0;
         while (bi.next() != BreakIterator.DONE) {
             String sentence = narrative.substring(index, bi.current());
-
             if (!sentence.contains("not relevant") && !sentence.contains("irrelevant")) {
                 relevantNarr.append(sentence.replaceAll(
                         "a relevant document identifies|a relevant document could|a relevant document may|a relevant document must|a relevant document will|a document will|to be relevant|relevant documents|a document must|relevant|will contain|will discuss|will provide|must cite",
@@ -189,8 +181,7 @@ public class RunSearcher2 {
 
     static Map<String, Float> createBoostMap() {
         Map<String, Float> boost = new HashMap<>();
-        boost.put("headline", (float) 0.1);
-        boost.put("text", (float) 0.9);
+        boost.put("all", (float) 1.0);
         return boost;
     }
 
@@ -199,7 +190,6 @@ public class RunSearcher2 {
         indexSearcher.setSimilarity(similarityModel);
         return indexSearcher;
     }
-
 
     public static void main(String[] args) {
         System.out.println(Constants.CYAN_BOLD_BRIGHT + "Searcher" + Constants.ANSI_RESET);

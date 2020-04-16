@@ -38,6 +38,7 @@ public class QueryReader {
                 populateQueryFields(tempTag, queryLine, QueryData, counter);
             }
             queries.add(QueryData);
+            queries.remove(0);
             bf.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,13 +60,13 @@ public class QueryReader {
             QueryData.setQueryNum(queryLine.replaceAll(QueryTags.QUERY_NUMBER.getTag(), ""));
         } else if (queryLineTag.equals(QueryTags.QUERY_TITLE.getTag())) {
             QueryData.setTitle(QueryData.getTitle() + " " + queryLine.replaceAll(QueryTags.QUERY_TITLE.getTag(),
-                    ""));
+                    "").trim());
         } else if (queryLineTag.equals(QueryTags.QUERY_DESCRIPTION.getTag())) {
             QueryData.setDescription(QueryData.getDescription() + " " + queryLine.replaceAll(
-                    QueryTags.QUERY_DESCRIPTION.getTag(), ""));
+                    QueryTags.QUERY_DESCRIPTION.getTag(), "").trim());
         } else if (queryLineTag.equals(QueryTags.QUERY_NARRATIVE.getTag())) {
             QueryData.setNarrative(QueryData.getNarrative() + " " + queryLine.replaceAll(
-                    QueryTags.QUERY_NARRATIVE.getTag(), ""));
+                    QueryTags.QUERY_NARRATIVE.getTag(), "").trim());
         } else {
             QueryData.setQueryId(String.valueOf(counter));
         }

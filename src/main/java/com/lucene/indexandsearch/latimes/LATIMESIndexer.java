@@ -61,11 +61,8 @@ public class LATIMESIndexer extends DocumentIndexer {
                 latimesData.setByLine(removeUnnecessaryTags(doc, LATIMESTags.BYLINE));
             if (doc.getElementsByTag(LATIMESTags.GRAPHIC.name()) != null)
                 latimesData.setGraphic(removeUnnecessaryTags(doc, LATIMESTags.GRAPHIC));
-            //latimesData.setAll(latimesData.getDocNum() + " " + latimesData.getText() + " " + latimesData.getTi());
-//            latimesDocList.add(createLATIMESDocument(latimesData));
+            latimesData.setAll(latimesData.getText() + " " + latimesData.getGraphic() + " " + latimesData.getByLine() + " " + latimesData.getHeadLine());
             addDocToIndex(createLATIMESDocument(latimesData));
-
-
         }
     }
 
@@ -107,12 +104,8 @@ public class LATIMESIndexer extends DocumentIndexer {
     private static Document createLATIMESDocument(LATIMESData latimesData) {
         Document document = new Document();
         document.add(new StringField(Constants.DOCNO_TEXT, latimesData.getDocNum(), Field.Store.YES));
-        document.add(new TextField(Constants.FIELD_TEXT, latimesData.getText(), Field.Store.YES));
         document.add(new TextField(Constants.HEADLINE_TEXT, latimesData.getHeadLine(), Field.Store.YES));
-        document.add(new StringField(Constants.SECTION_TEXT, latimesData.getSection(), Field.Store.YES));
-        document.add(new StringField(Constants.GRAPHIC_TEXT, latimesData.getGraphic(), Field.Store.YES));
-        document.add(new TextField(Constants.BYLINE_TEXT, latimesData.getByLine(), Field.Store.YES));
-        //document.add(new TextField(Constants.FIELD_ALL, latimesData.getAll(), Field.Store.YES));
+        document.add(new TextField(Constants.FIELD_ALL, latimesData.getAll(), Field.Store.YES));
         return document;
     }
 

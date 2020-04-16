@@ -4,7 +4,7 @@ public class FR94Data {
     public String docno;
     public String parent;
     public String text;
-    public String doctitle;
+    public String headline;
     public String usdept;
     public String agency;
     public String usbureau;
@@ -50,12 +50,12 @@ public class FR94Data {
         this.text = text;
     }
 
-    public String getDoctitle() {
-        return doctitle;
+    public String getHeadline() {
+        return headline;
     }
 
-    public void setDoctitle(String doctitle) {
-        this.doctitle = doctitle;
+    public void setHeadline(String headline) {
+        this.headline = headline;
     }
 
     public String getUsdept() {
