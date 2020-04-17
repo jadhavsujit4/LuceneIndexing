@@ -9,12 +9,12 @@ public class Constants {
     public static final Analyzer ANALYZER = new SMJAnalyzer();
 
     public static final String FIELD_ALL = "all";
-    public static String precisionRecallGraphImagePath = "data/results2/PRGraph";
-    public static final String searchResultFile = "data/results2/query_results";
+    public static String precisionRecallGraphImagePath = "data/results/PRGraph";
+    public static final String searchResultFile = "data/results/query_results";
     public static final String trecEvalPath = "data/trec_eval-9.0.7/trec_eval ";
     public static final String trecEvalRelevancePath = "data/qrels.assignment2.part1";
     public static final String trecEvalCommand = trecEvalPath + trecEvalRelevancePath + " " + searchResultFile;
-    public static final String trecEvalResultFile = "data/results2/TrecEval_Result";
+    public static final String trecEvalResultFile = "data/results/TrecEval_Result";
     public static final String TXTExtension = ".txt";
     public static final float k = 1.2f;
     public static final float b = 0.75f;
@@ -85,7 +85,7 @@ public class Constants {
     public static final String DATE_TEXT = "date";
     public static final int MAX_RETURN_RESULTS = 1000;
     public static final String ITER_NUM = " 0 ";
-    public static final String searchResultFile2 = "data/results2/query_results";
+    public static final String searchResultFile2 = "data/results/query_results";
     public static final String EXECUTION_TIME = " >> Execution Time in minutes: ";
     public static final String INDEXPATH = "index";
     public static final String QUERYFILEPATH = "rawdata/topics";
