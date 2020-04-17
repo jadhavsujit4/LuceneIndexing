@@ -126,11 +126,11 @@ public class Searcher {
                         narrativeQuery = queryParser.parse(QueryParser.escape(relevantNarr));
                     }
 
-                    booleanQuery.add(new BoostQuery(titleQuery, (float) 4), BooleanClause.Occur.SHOULD);
-                    booleanQuery.add(new BoostQuery(descriptionQuery, (float) 2.0), BooleanClause.Occur.SHOULD);
+                    booleanQuery.add(new BoostQuery(titleQuery, (float) 6), BooleanClause.Occur.SHOULD);
+                    booleanQuery.add(new BoostQuery(descriptionQuery, (float) 4.0), BooleanClause.Occur.SHOULD);
 
                     if (narrativeQuery != null) {
-                        booleanQuery.add(new BoostQuery(narrativeQuery, (float) 1.0), BooleanClause.Occur.SHOULD);
+                        booleanQuery.add(new BoostQuery(narrativeQuery, (float) 2.0), BooleanClause.Occur.SHOULD);
                     }
                     ScoreDoc[] hits = indexSearcher.search(booleanQuery.build(), Constants.MAX_RETURN_RESULTS).scoreDocs;
                     int n = Math.min(Constants.MAX_RETURN_RESULTS, hits.length);
