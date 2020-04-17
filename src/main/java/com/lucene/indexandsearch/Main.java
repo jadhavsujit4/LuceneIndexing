@@ -100,7 +100,7 @@ public class Main {
         System.out.println(Constants.CYAN_BOLD_BRIGHT + "Done building Index" + Constants.ANSI_RESET);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         if (args.length != 0 && args[0].equals("1")) {
             FileUtils.cleanDirectory(INDEXPATH);
@@ -113,6 +113,6 @@ public class Main {
         Constants.MODELUSED = MODELBM25;
         String[] argToPassToSearcher = {sim};
         Searcher.main(argToPassToSearcher);
-        RunTrecEval.main(null);
+        PlotGraph.main(null);
     }
 }

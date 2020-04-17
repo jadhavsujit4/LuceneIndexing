@@ -105,8 +105,8 @@ public class Searcher {
             analyzer = Constants.ANALYZER;
 
             Map<String, Float> boost = createBoostMap();
-            QueryParser queryParser = new QueryParser("all", analyzer);
-            //QueryParser queryParser = new MultiFieldQueryParser(new String[]{"all"}, analyzer, boost);
+            QueryParser queryParser = new QueryParser(Constants.FIELD_ALL, analyzer);
+//            QueryParser queryParser = new MultiFieldQueryParser(new String[]{Constants.FIELD_ALL, Constants.HEADLINE_TEXT}, analyzer, boost);
 
             PrintWriter writer = new PrintWriter(Constants.searchResultFile2 + "_" + sim, "UTF-8");
             List<QueryData> loadedQueries = QueryReader.loadQueriesFromFile();
@@ -114,6 +114,7 @@ public class Searcher {
             for (QueryData queryData : loadedQueries) {
                 List<String> splitNarrative = splitNarrIntoRelNotRel(queryData.getNarrative());
                 String relevantNarr = splitNarrative.get(0).trim();
+                String irrelevantNarr = splitNarrative.get(1).trim();
 
                 BooleanQuery.Builder booleanQuery = new BooleanQuery.Builder();
 
@@ -122,8 +123,12 @@ public class Searcher {
                     Query titleQuery = queryParser.parse(QueryParser.escape(queryData.getTitle()));
                     Query descriptionQuery = queryParser.parse(QueryParser.escape(queryData.getDescription()));
                     Query narrativeQuery = null;
+                    Query irrNarrativeQuery = null;
                     if (relevantNarr.length() > 0) {
                         narrativeQuery = queryParser.parse(QueryParser.escape(relevantNarr));
+                    }
+                    if (irrelevantNarr.length() > 0) {
+                        irrNarrativeQuery = queryParser.parse(QueryParser.escape(irrelevantNarr));
                     }
 
                     booleanQuery.add(new BoostQuery(titleQuery, (float) 6), BooleanClause.Occur.SHOULD);
@@ -131,6 +136,9 @@ public class Searcher {
 
                     if (narrativeQuery != null) {
                         booleanQuery.add(new BoostQuery(narrativeQuery, (float) 2.0), BooleanClause.Occur.SHOULD);
+                    }
+                    if (irrNarrativeQuery != null) {
+                        booleanQuery.add(new BoostQuery(irrNarrativeQuery, (float) 0.01), BooleanClause.Occur.SHOULD);
                     }
                     ScoreDoc[] hits = indexSearcher.search(booleanQuery.build(), Constants.MAX_RETURN_RESULTS).scoreDocs;
                     int n = Math.min(Constants.MAX_RETURN_RESULTS, hits.length);
@@ -181,7 +189,8 @@ public class Searcher {
 
     static Map<String, Float> createBoostMap() {
         Map<String, Float> boost = new HashMap<>();
-        boost.put("all", (float) 1.0);
+        boost.put("all", (float) 5.0);
+        boost.put(Constants.HEADLINE_TEXT, (float) 8.0);
         return boost;
     }
 
