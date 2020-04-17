@@ -111,11 +111,11 @@ public class Constants {
     public static final String NAME2 = "Name: Sujit Jadhav\t\t";
     public static final String TCDID2 = "TCDID: 19310363\t\t";
 
-    public static final String NAME3 = "Name: Chetan\t\t";
-    public static final String TCDID3 = "TCDID: 19314431\t\t";
+    public static final String NAME3 = "Name: Chetan Prasad\t\t";
+    public static final String TCDID3 = "TCDID: 19308180\t\t";
 
-    public static final String NAME4 = "Name: Lin\t\t";
-    public static final String TCDID4 = "TCDID: 19314431\t\t";
+    public static final String NAME4 = "Name: Jiawen Lin\t\t";
+    public static final String TCDID4 = "TCDID: 19309750\t\t";
     //Course Details
     public static final String COURSE = "COURSE: CS7IS3-A-SEM202-201920: INFORMATION RETRIEVAL AND WEB SEARCH\n";
     public static final String ASMNT = "Assignment 2 - Lucene and News paper publications\n";
