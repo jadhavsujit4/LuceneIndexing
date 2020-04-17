@@ -4,9 +4,13 @@
 ## Assignment 2: Lucene by Team 6 : BOOSTERS
 ## Team Members:
 Name - TCD Id
+
 Sujit Jadhav - 19310363
+
 Rohan Bagwe - 19314431
+
 Chetan Prasad - 19308180
+
 Jiawen Lin - 19309750
 
 ### Project Folder Path 
