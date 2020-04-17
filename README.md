@@ -75,7 +75,7 @@ data/trec_eval-9.0.7/trec_eval data/cran/cranqrel data/results/query_results_[Si
 ## Plotting Graph
 To get proper knowledge about how the indexer and searcher is performing, a graph of Recall VS Precision is plotted and in the results folder. Along with my graph, I have also plotted the ideal graph of Recall VS Precision. Below is my best Graph.
 
-![Image of PR Graph](https://github.com/jadhavsujit4/LuceneIndexing/blob/master/data/results/PRGraph_MULTI.jpeg)
+![Image of PR Graph](https://github.com/jadhavsujit4/LuceneIndexing/blob/assignment2/result/PrecisionVsRecall_All_analyzers_BM25.png`)
 
 ## Results
 Analyzer = (ClassicFilter + ASCIIFoldingFilter + LengthFiler + LowerCaseFilter + SynonymFilter + StopFilter + KStemFilter + PorterStemFilter)
