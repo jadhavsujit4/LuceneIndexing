@@ -104,7 +104,7 @@ public class Main {
 
         System.out.println(Constants.FORMATTER);
         System.out.println(Constants.CYELW_START + Constants.GRPUPNAME + Constants.CYELW_END);
-        System.out.println(Constants.CYELW_START + Constants.NAME3 + Constants.NEW_LINE + Constants.TCDID3 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME4 + Constants.NEW_LINE + Constants.TCDID4 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME1 + Constants.NEW_LINE + Constants.TCDID1 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME2 + Constants.NEW_LINE + Constants.TCDID2 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.COURSE + Constants.ASMNT + Constants.CYELW_END);
+        System.out.println(Constants.CYELW_START + Constants.COURSE + Constants.ASMNT + Constants.NEW_LINE + Constants.NAME3 + Constants.NEW_LINE + Constants.TCDID3 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME4 + Constants.NEW_LINE + Constants.TCDID4 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME1 + Constants.NEW_LINE + Constants.TCDID1 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME2 + Constants.NEW_LINE + Constants.TCDID2 + Constants.NEW_LINE  + Constants.CYELW_END);
 
         while (true) {
             System.out.println(Constants.FORMATTER);
