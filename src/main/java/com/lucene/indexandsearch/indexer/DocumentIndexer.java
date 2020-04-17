@@ -8,7 +8,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.ClassicSimilarity;
-import org.apache.lucene.search.similarities.MultiSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -40,12 +39,12 @@ public class DocumentIndexer {
 
         try {
             Directory dir = FSDirectory.open(Paths.get(indexPath));
-            System.out.println("Indexing to directory '" + indexPath + "'...");
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexing to directory '" + indexPath + "'..." + Constants.ANSI_RESET);
 
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};
-//            MultiSimilarity();
-            iwc.setSimilarity(new MultiSimilarity(sims));
+//            iwc.setSimilarity(new MultiSimilarity(sims));
+//            iwc.setSimilarity(new BM25Similarity(Constants.k, Constants.b));
             iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
             writer = new IndexWriter(dir, iwc);
 

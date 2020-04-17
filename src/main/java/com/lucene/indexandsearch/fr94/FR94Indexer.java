@@ -23,8 +23,6 @@ public class FR94Indexer extends DocumentIndexer {
     private static BufferedReader br;
     private static List<Document> fr94DocList = new ArrayList<>();
 
-    //    private static final String[] IGNORE_FILES = {"readchg", "readmefr"}; //Not present within the folders
-
     public FR94Indexer(String indexPath) throws IOException {
         super(indexPath);
         loadFR94Docs(Constants.FR94FILESPATH);
@@ -63,8 +61,8 @@ public class FR94Indexer extends DocumentIndexer {
                 fr94Data.setParent(removeUnnecessaryTags(doc, FR94Tags.PARENT));
             if (doc.getElementsByTag(FR94Tags.TEXT.name()) != null)
                 fr94Data.setText(removeUnnecessaryTags(doc, FR94Tags.TEXT));
-            if (doc.getElementsByTag(FR94Tags.DOCTITLE.name()) != null)
-                fr94Data.setDoctitle(removeUnnecessaryTags(doc, FR94Tags.DOCTITLE));
+            if (doc.getElementsByTag(FR94Tags.HEADLINE.name()) != null)
+                fr94Data.setHeadline(removeUnnecessaryTags(doc, FR94Tags.HEADLINE));
             if (doc.getElementsByTag(FR94Tags.USDEPT.name()) != null)
                 fr94Data.setUsdept(removeUnnecessaryTags(doc, FR94Tags.USDEPT));
             if (doc.getElementsByTag(FR94Tags.AGENCY.name()) != null)
@@ -89,30 +87,27 @@ public class FR94Indexer extends DocumentIndexer {
                 fr94Data.setFootcite(removeUnnecessaryTags(doc, FR94Tags.FOOTCITE));
             if (doc.getElementsByTag(FR94Tags.FOOTNAME.name()) != null)
                 fr94Data.setFootname(removeUnnecessaryTags(doc, FR94Tags.FOOTNAME));
-            /* Future if any of the following tags are required
-            if (doc.getElementsByTag(FR94Tags.ADDRESS.name()) != null)
-                fr94Data.setAddress(removeUnnecessaryTags(doc, FR94Tags.ADDRESS));
-            if (doc.getElementsByTag(FR94Tags.FURTHER.name()) != null)
-                fr94Data.setFurther(removeUnnecessaryTags(doc, FR94Tags.FURTHER));
+            if (doc.getElementsByTag(FR94Tags.DATE.name()) != null)
+                fr94Data.setDate(removeUnnecessaryTags(doc, FR94Tags.DATE));
             if (doc.getElementsByTag(FR94Tags.SIGNER.name()) != null)
                 fr94Data.setSigner(removeUnnecessaryTags(doc, FR94Tags.SIGNER));
             if (doc.getElementsByTag(FR94Tags.SIGNJOB.name()) != null)
                 fr94Data.setSignjob(removeUnnecessaryTags(doc, FR94Tags.SIGNJOB));
-            if (doc.getElementsByTag(FR94Tags.DATE.name()) != null)
-                fr94Data.setDate(removeUnnecessaryTags(doc, FR94Tags.DATE));
-            if (doc.getElementsByTag(FR94Tags.RINDOCK.name()) != null)
-                fr94Data.setRindock(removeUnnecessaryTags(doc, FR94Tags.RINDOCK));
             if (doc.getElementsByTag(FR94Tags.TABLE.name()) != null)
-                fr94Data.setTable(removeUnnecessaryTags(doc, FR94Tags.TABLE));*/
-            //fr94Data.setAll(fr94Data.getDocno() + " " + fr94Data.getText() + " " + fr94Data.getTi());
-//            fr94DocList.add(createFR94Document(fr94Data));
+                fr94Data.setTable(removeUnnecessaryTags(doc, FR94Tags.TABLE));
+            if (doc.getElementsByTag(FR94Tags.FURTHER.name()) != null)
+                fr94Data.setFurther(removeUnnecessaryTags(doc, FR94Tags.FURTHER));
+            fr94Data.setAll(fr94Data.getText()
+                                    + " " +fr94Data.getSummary().replaceAll("SUMMARY:","")
+                                    + " " +fr94Data.getHeadline() +" "+fr94Data.getSigner()+ " "+ fr94Data.getSignjob() + " " + fr94Data.getTable()
+                                    + " " +fr94Data.getSupplem().replaceAll("SUPPLEMENTARY INFORMATION:","")
+                                    + " " +fr94Data.getDate().replaceAll("DATES:","")
+                                    + " " +fr94Data.getAction().replaceAll("ACTION:","")
+                                    + " " +fr94Data.getFurther().replaceAll("FOR FURTHER INFORMATION CONTACT:",""));
             addDocToIndex(createFR94Document(fr94Data));
         }
     }
 
-    //    public void indexDocumentsFromFile(String fileName) {
-//        addDocToIndex();
-//    }
     private static String removeUnnecessaryTags(Element doc, FR94Tags tag) {
 
         Elements element = doc.getElementsByTag(tag.name());
@@ -120,7 +115,6 @@ public class FR94Indexer extends DocumentIndexer {
         //remove any nested
         deleteNestedTags(tempElement, tag);
         String data = tempElement.toString();
-
         //remove any instance of "\n"
         if (data.contains("\n"))
             data = data.replaceAll("\n", "").trim();
@@ -151,22 +145,8 @@ public class FR94Indexer extends DocumentIndexer {
     private static Document createFR94Document(FR94Data fr94Data) {
         Document document = new Document();
         document.add(new StringField(Constants.DOCNO_TEXT, fr94Data.getDocno(), Field.Store.YES));
-        document.add(new TextField(Constants.FIELD_TEXT, fr94Data.getText(), Field.Store.YES));
-        document.add(new TextField(Constants.PARENT_TEXT, fr94Data.getParent(), Field.Store.YES));
-        document.add(new StringField(Constants.DOCTITLE_TEXT, fr94Data.getDoctitle(), Field.Store.YES));
-        document.add(new StringField(Constants.USDEPT_TEXT, fr94Data.getUsdept(), Field.Store.YES));
-        document.add(new TextField(Constants.USBUREAU_TEXT, fr94Data.getUsbureau(), Field.Store.YES));
-        document.add(new TextField(Constants.AGENCY_TEXT, fr94Data.getAgency(), Field.Store.YES));
-        document.add(new TextField(Constants.SUMMARY_TEXT, fr94Data.getSummary(), Field.Store.YES));
-        document.add(new TextField(Constants.SUPPLEM_TEXT, fr94Data.getSupplem(), Field.Store.YES));
-        document.add(new TextField(Constants.ACTION_TEXT, fr94Data.getAction(), Field.Store.YES));
-        document.add(new TextField(Constants.BILLING_TEXT, fr94Data.getBilling(), Field.Store.YES));
-        document.add(new TextField(Constants.FRFILING_TEXT, fr94Data.getFrfiling(), Field.Store.YES));
-        document.add(new TextField(Constants.CFRNO_TEXT, fr94Data.getCfrno(), Field.Store.YES));
-        document.add(new TextField(Constants.FOOTNOTE_TEXT, fr94Data.getFootnote(), Field.Store.YES));
-        document.add(new TextField(Constants.FOOTCITE_TEXT, fr94Data.getFootcite(), Field.Store.YES));
-        document.add(new TextField(Constants.FOOTNAME_TEXT, fr94Data.getFootname(), Field.Store.YES));
-        //document.add(new TextField(Constants.FIELD_ALL, fr94Data.getAll(), Field.Store.YES));
+        document.add(new TextField(Constants.HEADLINE_TEXT, fr94Data.getHeadline(), Field.Store.YES));
+        document.add(new TextField(Constants.FIELD_ALL, fr94Data.getAll(), Field.Store.YES));
         return document;
     }
 

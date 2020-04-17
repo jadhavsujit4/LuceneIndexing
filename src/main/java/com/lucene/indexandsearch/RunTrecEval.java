@@ -29,6 +29,7 @@ public class RunTrecEval {
                 new InputStreamReader(procss.getInputStream()));
         try {
             Integer xStart = 0;
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "TRECEVAL RESULTS" + Constants.NEW_LINE + Constants.ANSI_RESET);
             while ((s = br.readLine()) != null) {
                 String precision = "";
                 if (s.contains("iprec")) {

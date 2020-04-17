@@ -48,9 +48,6 @@ public class FBISIndexer extends DocumentIndexer {
         org.jsoup.nodes.Document document = Jsoup.parse(file);
 
         List<Element> list = document.getElementsByTag("doc");
-
-//        String date = "",day = "",month ="",year ="";
-
         for (Element doc : list) {
 
             FBISData fbisData = new FBISData();
@@ -60,11 +57,9 @@ public class FBISIndexer extends DocumentIndexer {
                 fbisData.setText(removeUnnecessaryTags(doc, FBISTags.TEXT));
             if (doc.getElementsByTag(FBISTags.TI.name()) != null)
                 fbisData.setTi(removeUnnecessaryTags(doc, FBISTags.TI));
-
-            fbisData.setAll(fbisData.getDocNum() + " " + fbisData.getText() + " " + fbisData.getTi());
-
-//            fbisDocList.add(createFBISDocument(fbisData));
+            fbisData.setAll(fbisData.getText() + " " + fbisData.getTi().trim());
             addDocToIndex(createFBISDocument(fbisData));
+
         }
     }
 
@@ -72,19 +67,19 @@ public class FBISIndexer extends DocumentIndexer {
 
         Elements element = doc.getElementsByTag(tag.name());
         Elements tempElement = element.clone();
-        //remove any nested
+        //Remove any nested
         deleteNestedTags(tempElement, tag);
         String data = tempElement.toString();
-
-        //remove any instance of "\n"
+        //Remove any instance of "\n"
         if (data.contains("\n"))
             data = data.replaceAll("\n", "").trim();
-        //remove start and end tags
+        //Remove start and end tags
         if (data.contains(("<" + tag.name() + ">").toLowerCase()))
             data = data.replaceAll("<" + tag.name().toLowerCase() + ">", "").trim();
         if (data.contains(("</" + tag.name() + ">").toLowerCase()))
             data = data.replaceAll("</" + tag.name().toLowerCase() + ">", "").trim();
 
+        data = data.trim().replaceAll(" +", " ");
         return data;
     }
 
@@ -102,7 +97,6 @@ public class FBISIndexer extends DocumentIndexer {
         Document document = new Document();
         document.add(new StringField(Constants.DOCNO_TEXT, fbisData.getDocNum(), Field.Store.YES));
         document.add(new TextField(Constants.HEADLINE_TEXT, fbisData.getTi(), Field.Store.YES));
-        document.add(new TextField(Constants.FIELD_TEXT, fbisData.getText(), Field.Store.YES));
         document.add(new TextField(Constants.FIELD_ALL, fbisData.getAll(), Field.Store.YES));
         return document;
     }

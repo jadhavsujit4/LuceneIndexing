@@ -59,8 +59,9 @@ public class FTIndexer extends DocumentIndexer {
                 ftData.setByLine(removeUnnecessaryTags(doc, FTTags.BYLINE));
             if (doc.getElementsByTag(FTTags.PROFILE.name()) != null)
                 ftData.setProfile(removeUnnecessaryTags(doc, FTTags.PROFILE));
-            //ftData.setAll(latimesData.getDocNum() + " " + latimesData.getText() + " " + latimesData.getTi());
-//            ftDocList.add(createFTDocument(ftData));
+            if (doc.getElementsByTag(FTTags.PUB.name()) != null)
+                ftData.setPub(removeUnnecessaryTags(doc, FTTags.PUB));
+            ftData.setAll(ftData.getText() + " " + ftData.getHeadLine() + " " + ftData.getByLine() + " " + ftData.getPub() + " " + ftData.getProfile());
             addDocToIndex(createFTDocument(ftData));
         }
     }
@@ -103,14 +104,8 @@ public class FTIndexer extends DocumentIndexer {
     private static Document createFTDocument(FTData FTData) {
         Document document = new Document();
         document.add(new StringField(Constants.DOCNO_TEXT, FTData.getDocNum(), Field.Store.YES));
-        document.add(new TextField(Constants.FIELD_TEXT, FTData.getText(), Field.Store.YES));
         document.add(new TextField(Constants.HEADLINE_TEXT, FTData.getHeadLine(), Field.Store.YES));
-        if(!"".equals(FTData.getByLine()))
-        document.add(new TextField(Constants.BYLINE_TEXT, FTData.getByLine(), Field.Store.YES));
-        document.add(new TextField(Constants.PROFILE_TEXT, FTData.getProfile(), Field.Store.YES));
-        //document.add(new TextField(Constants.PAGE_TEXT, FTData.getPage(), Field.Store.YES));
-        //document.add(new TextField(Constants.PUB_TEXT, FTData.getPub(), Field.Store.YES));
-        //document.add(new TextField(Constants.FIELD_ALL, latimesData.getAll(), Field.Store.YES));
+        document.add(new TextField(Constants.FIELD_ALL, FTData.getAll(), Field.Store.YES));
         return document;
     }
 
