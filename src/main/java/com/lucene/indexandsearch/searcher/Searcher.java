@@ -36,7 +36,9 @@ public class Searcher {
     protected enum SimModel {
         CLASSIC, BM25, LMD, LMJ, MULTI
     }
+
     protected static Searcher.SimModel sim;
+
     private static void setSim(String val) {
         try {
             sim = Searcher.SimModel.valueOf(val);
@@ -55,25 +57,25 @@ public class Searcher {
         switch (sim) {
 
             case CLASSIC:
-                System.out.println(Constants.CYAN_BOLD_BRIGHT + "Classic Similarity Function" + Constants.ANSI_RESET);
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "Classic Similarity Function used." + Constants.ANSI_RESET);
                 simfn = new ClassicSimilarity();
                 break;
             case BM25:
-                System.out.println(Constants.CYAN_BOLD_BRIGHT + "BM25 Similarity Function" + Constants.ANSI_RESET);
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "BM25 Similarity Function used." + Constants.ANSI_RESET);
                 simfn = new BM25Similarity(Constants.k, Constants.b);
                 break;
             case LMD:
-                System.out.println(Constants.CYAN_BOLD_BRIGHT + "LM Dirichlet Similarity Function" + Constants.ANSI_RESET);
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "LM Dirichlet Similarity Function used." + Constants.ANSI_RESET);
                 colModel = new LMSimilarity.DefaultCollectionModel();
                 simfn = new LMDirichletSimilarity(colModel, Constants.mu);
                 break;
             case LMJ:
-                System.out.println(Constants.CYAN_BOLD_BRIGHT + "LM Jelinek Mercer Similarity Function" + Constants.ANSI_RESET);
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "LM Jelinek Mercer Similarity Function used." + Constants.ANSI_RESET);
                 colModel = new LMSimilarity.DefaultCollectionModel();
                 simfn = new LMJelinekMercerSimilarity(colModel, Constants.lam);
                 break;
             case MULTI:
-                System.out.println(Constants.CYAN_BOLD_BRIGHT + "BM25 Similarity function With Classic Similarity Function" + Constants.ANSI_RESET);
+                System.out.println(Constants.CYAN_BOLD_BRIGHT + "BM25 Similarity function With LMJ Similarity Function used." + Constants.ANSI_RESET);
                 simfn = new LMJelinekMercerSimilarity(colModel, Constants.lam);
                 break;
 
@@ -110,6 +112,7 @@ public class Searcher {
 
             PrintWriter writer = new PrintWriter(Constants.searchResultFile2 + "_" + sim, "UTF-8");
             List<QueryData> loadedQueries = QueryReader.loadQueriesFromFile();
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Loading and executing queries" + Constants.ANSI_RESET);
             int ct = 0;
             for (QueryData queryData : loadedQueries) {
                 List<String> splitNarrative = splitNarrIntoRelNotRel(queryData.getNarrative());
@@ -201,19 +204,21 @@ public class Searcher {
     }
 
     public static void main(String[] args) {
-        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Searcher" + Constants.ANSI_RESET);
-        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Loading and executing queries" + Constants.ANSI_RESET);
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Searching Started " + Constants.ANSI_RESET);
+
         try {
             String sim;
             if (args.length != 0) {
                 sim = args[0].toUpperCase();
                 Constants.MODELUSED = sim;
             } else {
-                System.out.println("Please mention similarity to use or default similarity MULTI(BM25 + Classic) Similarity would be used.");
-                sim = Constants.MODELMULTI;
-                Constants.MODELUSED = Constants.MODELMULTI;
+                System.out.println("Please mention similarity to use or default similarity MULTI(BM25 + LMJ) Similarity would be used.");
+                sim = Constants.MODELBM25;
+                Constants.MODELUSED = Constants.MODELBM25;
             }
             executeQueries(sim);
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Searching Completed " + Constants.ANSI_RESET);
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Search results are stored at: " + Constants.searchResultFile2 + "_" + sim + Constants.ANSI_RESET);
         } catch (ParseException e) {
             e.printStackTrace();
         }

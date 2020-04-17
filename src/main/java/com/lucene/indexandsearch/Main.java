@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Scanner;
 
 import static com.lucene.indexandsearch.utils.Constants.*;
 
@@ -29,7 +30,7 @@ public class Main {
     public DocumentIndexer diFt;
 
     public Main(String docType) throws IOException {
-        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexer" + Constants.ANSI_RESET);
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "About to Index Files for Document type: " + docType + Constants.ANSI_RESET);
         setDocParser(docType);
         selectDocumentParser(docModel);
     }
@@ -87,7 +88,6 @@ public class Main {
         Instant startTime = Instant.now();
         Main indexer = new Main(indexType);
         try {
-            System.out.println(Constants.CYAN_BOLD_BRIGHT + "About to Index Files from data: " + indexType + Constants.ANSI_RESET);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -96,23 +96,101 @@ public class Main {
         }
         Instant finishTime = Instant.now();
         long timeElapsed = Duration.between(startTime, finishTime).toMillis();
-        System.out.println(Constants.EXECUTION_TIME + timeElapsed / 60000.0);
-        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Done building Index" + Constants.ANSI_RESET);
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + Constants.EXECUTION_TIME + timeElapsed / 60000.0 + Constants.ANSI_RESET);
+        System.out.println(Constants.CYAN_BOLD_BRIGHT + "Done building Index for " + indexType + Constants.ANSI_RESET);
     }
 
     public static void main(String[] args) throws Exception {
 
-        if (args.length != 0 && args[0].equals("1")) {
-            FileUtils.cleanDirectory(INDEXPATH);
-            createIndex(FBISFILESPATH, FBISINDEXTYPE);
-            createIndex(LATIMES_FILESPATH, LATTIMESINDEXTYPE);
-            createIndex(FR94FILESPATH, FR94INDEXTYPE);
-            createIndex(FT_FILESPATH, FTINDEXTYPE);
+        System.out.println(Constants.FORMATTER);
+        System.out.println(Constants.CYELW_START + Constants.GRPUPNAME + Constants.CYELW_END);
+        System.out.println(Constants.CYELW_START + Constants.NAME3 + Constants.NEW_LINE + Constants.TCDID3 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME4 + Constants.NEW_LINE + Constants.TCDID4 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME1 + Constants.NEW_LINE + Constants.TCDID1 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.NAME2 + Constants.NEW_LINE + Constants.TCDID2 + Constants.NEW_LINE + Constants.NEW_LINE + Constants.COURSE + Constants.ASMNT + Constants.CYELW_END);
+
+        while (true) {
+            System.out.println(Constants.FORMATTER);
+            System.out.println(Constants.ENTER_YOUR_CHOICE);
+            System.out.print(Constants.NEW_LINE);
+            System.out.println(Constants.TAB + Constants.CHOICE_1);
+            System.out.println(Constants.TAB + Constants.CHOICE_2);
+            System.out.println(Constants.TAB + Constants.CHOICE_3);
+
+            System.out.print(Constants.NEW_LINE);
+
+            System.out.print(Constants.ENTER_YOUR_CHOICE);
+            Scanner in = new Scanner(System.in);
+
+            while (!in.hasNextInt()) {
+                System.out.println(Constants.RED_START + Constants.INVALID_CHOICE + Constants.RED_END);
+                System.out.print(Constants.ENTER_YOUR_CHOICE);
+                in.next();
+            }
+
+            int choiceInput = in.nextInt();
+            String[] argToPassToSearcher;
+            switch (choiceInput) {
+                case 1:
+                    System.out.println(Constants.CYAN_BOLD_BRIGHT + "Running Indexer" + Constants.ANSI_RESET);
+                    FileUtils.cleanDirectory(INDEXPATH);
+                    createIndex(FBISFILESPATH, FBISINDEXTYPE);
+                    createIndex(LATIMES_FILESPATH, LATTIMESINDEXTYPE);
+                    createIndex(FR94FILESPATH, FR94INDEXTYPE);
+                    createIndex(FT_FILESPATH, FTINDEXTYPE);
+                    System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexing Completed" + Constants.ANSI_RESET);
+                    String sim = MODELBM25;
+                    Constants.MODELUSED = MODELBM25;
+                    argToPassToSearcher = new String[]{Constants.MODELUSED};
+                    Searcher.main(argToPassToSearcher);
+                    break;
+                case 2:
+                    System.out.print(Constants.CHOOSE_SIMILARITY + Constants.NEW_LINE);
+                    System.out.println(Constants.TAB + Constants.CHOICE_BM25);
+                    System.out.println(Constants.TAB + Constants.CHOICE_MULTI);
+                    System.out.println(Constants.TAB + Constants.CHOICE_LMJ);
+                    System.out.println(Constants.TAB + Constants.CHOICE_LMD);
+                    System.out.println(Constants.TAB + Constants.CHOICE_CLASSIC);
+                    while (!in.hasNextInt()) {
+                        System.out.println(Constants.RED_START + Constants.INVALID_CHOICE + Constants.RED_END);
+                        System.out.print(Constants.ENTER_YOUR_CHOICE);
+                        in.next();
+                    }
+                    int similarityInput = in.nextInt();
+                    switch (similarityInput) {
+                        case 1:
+                            Constants.MODELUSED = MODELBM25;
+                            break;
+                        case 2:
+                            Constants.MODELUSED = Constants.MODELMULTI;
+                            break;
+                        case 3:
+                            Constants.MODELUSED = Constants.MODELLMJ;
+                            break;
+                        case 4:
+                            Constants.MODELUSED = Constants.MODELLMD;
+                            break;
+                        case 5:
+                            Constants.MODELUSED = Constants.MODELCLASSIC;
+                            break;
+                        default:
+                            System.out.println(Constants.RED_START + Constants.OUT_OF_RANGE + Constants.RED_END);
+                            System.out.println(Constants.CGRN_START + Constants.DEFAULT_SIMILARITY + Constants.CGRN_END);
+                            Constants.MODELUSED = MODELBM25;
+                            break;
+                    }
+                    break;
+                case 3:
+                    System.exit(1);
+                default: {
+                    System.out.println(Constants.RED_START + Constants.OUT_OF_RANGE + Constants.RED_END);
+                    System.out.println(Constants.CGRN_START + Constants.DEFAULT_CHOICE + Constants.CGRN_END);
+                    Constants.MODELUSED = MODELBM25;
+                    break;
+                }
+            }
+            argToPassToSearcher = new String[]{Constants.MODELUSED};
+            Searcher.main(argToPassToSearcher);
+            System.out.println(Constants.NEW_LINE);
+
+            PlotGraph.main(null);
         }
-        String sim = MODELBM25;
-        Constants.MODELUSED = MODELBM25;
-        String[] argToPassToSearcher = {sim};
-        Searcher.main(argToPassToSearcher);
-        PlotGraph.main(null);
     }
 }

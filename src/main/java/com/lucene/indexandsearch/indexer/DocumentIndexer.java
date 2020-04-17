@@ -39,7 +39,7 @@ public class DocumentIndexer {
 
         try {
             Directory dir = FSDirectory.open(Paths.get(indexPath));
-            System.out.println("Indexing to directory '" + indexPath + "'...");
+            System.out.println(Constants.CYAN_BOLD_BRIGHT + "Indexing to directory '" + indexPath + "'..." + Constants.ANSI_RESET);
 
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             Similarity[] sims = {new BM25Similarity(), new ClassicSimilarity()};

@@ -90,5 +90,51 @@ public class Constants {
     public static final String INDEXPATH = "index";
     public static final String QUERYFILEPATH = "rawdata/topics";
 
+    // For input taking
+    // Colors
+    public static final String CYELW_START = "\033[32;1;2m";
+    public static final String CYELW_END = "\033[0m";
+    public static final String CGRN_START = "\033[34m";
+    public static final String CGRN_END = "\033[0m";
+    public static final String RED_START = "\033[31;1m";
+    public static final String RED_END = "\033[0m";
+
+    //Formatters
+    public static final String FORMATTER = "\n ... \n";
+    public static final String NEW_LINE = "\n";
+    public static final String TAB = "\t";
+    //Group Details
+    public static final String GRPUPNAME = "\t\t\t\t\t\tBOOSTERS : JUST BOOST YOUR SEARCH!!\n";
+    public static final String NAME1 = "Name: Rohan Dilip Bagwe\t\t";
+    public static final String TCDID1 = "TCDID: 19314431\t\t";
+
+    public static final String NAME2 = "Name: Sujit Jadhav\t\t";
+    public static final String TCDID2 = "TCDID: 19310363\t\t";
+
+    public static final String NAME3 = "Name: Chetan\t\t";
+    public static final String TCDID3 = "TCDID: 19314431\t\t";
+
+    public static final String NAME4 = "Name: Lin\t\t";
+    public static final String TCDID4 = "TCDID: 19314431\t\t";
+    //Course Details
+    public static final String COURSE = "COURSE: CS7IS3-A-SEM202-201920: INFORMATION RETRIEVAL AND WEB SEARCH\n";
+    public static final String ASMNT = "Assignment 2 - Lucene and News paper publications\n";
+    public static final String INVALID_CHOICE = "Please enter correct option.";
+    public static final String OUT_OF_RANGE = "Option out of range!";
+    public static final String SIMILARITY = "Please Select Similarity: ";
+    public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
+    public static final String CHOICE_1 = "1. INDEX USING CUSTOM ANALYZER AND SEARCH USING BM25 SIMILARITY";
+    public static final String CHOICE_2 = "2. SEARCHING WITH SIMILARITY OPTIONS";
+    public static final String CHOICE_3 = "3. EXIT";
+
+    public static final String CHOOSE_SIMILARITY = "CHOOSE SIMILARITY";
+    public static final String CHOICE_BM25 = "1. BM25 SIMILARITY";
+    public static final String CHOICE_MULTI = "2. MULTI SIMILARITY";
+    public static final String CHOICE_LMJ = "3. LMJ SIMILARITY";
+    public static final String CHOICE_LMD = "4. LMD SIMILARITY";
+    public static final String CHOICE_CLASSIC = "5. CLASSIC SIMILARITY";
+
+    public static final String DEFAULT_SIMILARITY = "SELECTED DEFAULT SIMILARITY: BM25";
+    public static final String DEFAULT_CHOICE = "DEFAULT CHOICE SELECTED -> SEARCHING WITH BM25 SIMILARITY";
 }
 

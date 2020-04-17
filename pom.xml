@@ -39,7 +39,7 @@
                     </arguments>
 
                     <mainClass>com.lucene.indexandsearch.Main</mainClass>
-                    <arguments>${option}</arguments>
+<!--                    <arguments>${option}</arguments>-->
                     <additionalClasspathElements>
                         <additionalClasspathElement>
                             /tmp/externalTestJars/testjar.jar
