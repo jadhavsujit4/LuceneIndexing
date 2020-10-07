@@ -1,18 +1,11 @@
 # LuceneIndexing# Lucene-Indexing-and-Searching
 
 ## Trinity College Dublin - CS7IS3 - Information Retrieval and Web Search
-## Assignment 2: Lucene by Team 6 : BOOSTERS
-## Team Members:
+## Assignment 2: Lucene on news articles
+## Submitted by:
 Name - TCD Id
 
 Sujit Jadhav - 19310363
-
-Rohan Bagwe - 19314431
-
-Chetan Prasad - 19308180
-
-Jiawen Lin - 19309750
-
 ### Project Folder Path 
 /LuceneIndexing
 ### Result Folder Path 
@@ -79,7 +72,7 @@ data/trec_eval-9.0.7/trec_eval data/cran/cranqrel data/results/query_results_[Si
 ## Plotting Graph
 To get proper knowledge about how the indexer and searcher is performing, a graph of Recall VS Precision is plotted and in the results folder. Along with my graph, I have also plotted the ideal graph of Recall VS Precision. Below is my best Graph.
 
-![Image of PR Graph](https://github.com/jadhavsujit4/LuceneIndexing/blob/assignment2/result/PrecisionVsRecall_All_analyzers_BM25.png`)
+![Image of PR Graph](https://github.com/jadhavsujit4/LuceneIndexing/blob/assignment2/result/PrecisionVsRecall_All_analyzers_BM25.png)
 
 ## Results
 Analyzer = (ClassicFilter + ASCIIFoldingFilter + LengthFiler + LowerCaseFilter + SynonymFilter + StopFilter + KStemFilter + PorterStemFilter)
